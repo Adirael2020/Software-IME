@@ -53,7 +53,10 @@ const studentSchema = mongoose.Schema({
     infoMedical: String,
     observation: String,
     isRegister: Boolean,
-    password: String
+    password: String,
+    hierarchy: {
+        type: String,
+    },
 });
 
 //otras relaciones

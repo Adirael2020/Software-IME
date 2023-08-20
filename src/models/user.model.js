@@ -26,13 +26,19 @@ const userSchema = mongoose.Schema({
         type: String,
     },
     isActive: Boolean,
-    specialty: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Specialty' }]
+    specialty: [specialty],
+    birthday: {
+        type: Date
+    },
 });
 
 // Materias que da cada profesor
 const specialtySchema = mongoose.Schema({
     name: String
 });
+
+//Sueldos
+ 
 
 //Exports
 export const user = mongoose.model('User',userSchema);
