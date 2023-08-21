@@ -1,5 +1,6 @@
 import { user } from "../models/user.model";
 
+//Crear usuario
 export const createUser = (req,res) => {
     const {
         username,
@@ -8,17 +9,30 @@ export const createUser = (req,res) => {
         email,
         hierarchy,
         specialty,
-        birthday
+        birthdayC
     } = req.body;
-
-    const newUser = new user ({
-        username,
-        password,
-        fullname,
-        email,
-        hierarchy,
-        specialty,
-        birthday
-    });
-
+    try {
+        const isActive = true;
+        const newUser = new user ({
+            username,
+            password,
+            fullname,
+            email,
+            hierarchy,
+            isActive,
+            specialty,
+            birthday
+        });
+        const userCreate = newUser.save();
+        res.json(userCreate);
+    } catch (error) {
+        console.log(error);
+        res.status(404);
+    };
 };
+
+//Obtener usuarios
+//obtener un usuario
+//editar usuario
+//Activar Usuario
+//Desactivar Usuario
