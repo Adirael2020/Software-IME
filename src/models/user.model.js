@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 //Usuarios (Administrativo/pedagogico)
-const userSchema = mongoose.Schema({
+const userSchema = new mongoose.Schema({
     username:{
         type: String,
         required: true,
@@ -33,7 +33,7 @@ const userSchema = mongoose.Schema({
 });
 
 // Materias que da cada profesor
-const specialtySchema = mongoose.Schema({
+const specialtySchema = new mongoose.Schema({
     name: String
 });
 

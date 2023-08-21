@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 //Sedes
-const headquearterSchema = mongoose.Schema({
+const headquearterSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
@@ -24,7 +24,7 @@ const headquearterSchema = mongoose.Schema({
 });
 
 //Relacion con usuarios
-const usersHerdqueartersSchema = mongoose.Schema({
+const usersHerdqueartersSchema = new mongoose.Schema({
     headquearter: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Headquearter'

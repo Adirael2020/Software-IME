@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import { headquearter } from "./headqueater.model";
 
 //Estudiante
-const studentSchema = mongoose.Schema({
+const studentSchema = new mongoose.Schema({
     idstudent: {
         type: Number,
         unique: true
