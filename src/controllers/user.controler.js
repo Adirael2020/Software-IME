@@ -1,7 +1,8 @@
+import bcrypt from 'bcryptjs';
 import { user } from "../models/user.model";
 
 //Crear usuario
-export const createUser = (req,res) => {
+export const createUser = async(req,res) => {
     const {
         username,
         password,
@@ -9,13 +10,14 @@ export const createUser = (req,res) => {
         email,
         hierarchy,
         specialty,
-        birthdayC
+        birthday
     } = req.body;
     try {
+        const passwordHash = await bcrypt.hash(password, 10)
         const isActive = true;
         const newUser = new user ({
             username,
-            password,
+            password: passwordHash,
             fullname,
             email,
             hierarchy,
@@ -23,11 +25,12 @@ export const createUser = (req,res) => {
             specialty,
             birthday
         });
-        const userCreate = newUser.save();
-        res.json(userCreate);
+        await newUser.save();
+        res.json({
+            message: "Usuario Cargado Correctamente"
+        });
     } catch (error) {
-        console.log(error);
-        res.status(404);
+        res.status(500).json({message: error.message});
     };
 };
 
