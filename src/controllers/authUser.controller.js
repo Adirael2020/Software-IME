@@ -2,6 +2,10 @@ import bcrypt from 'bcryptjs';
 import { user } from "../models/user.model";
 import { createAccessToken } from '../libs/jwt.js';
 
+
+//Login para todo lo que son usuarios como administrativos, gerencia, profesores
+
+//Iniciar sesion
 export const loginUser = async(req,res) => {
     const {username, password} = req.body;
 
@@ -26,6 +30,14 @@ export const loginUser = async(req,res) => {
             specialty: userFound.specialty
         })
     } catch (error) {
-        
+        res.status(500).json({message: error.message});
     }
+};
+
+//Cerrar sesion
+export const logoutUser = async(req,res) =>{
+    res.cookie('token', "" ,{
+        expires: new Date(0)
+    });
+    return res.sendStatus(200);
 };
