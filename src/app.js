@@ -1,5 +1,6 @@
 import express from "express";
 import morgan from "morgan";
+import cookieParser from "cookie-parser";
 
 
 //Routs
@@ -11,6 +12,7 @@ const app = express();
 
 app.use(morgan('dev'));
 app.use(express.json());
+app.use(cookieParser());
 
 //Routs
 app.use('/api',authRoutes);
