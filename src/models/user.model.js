@@ -1,5 +1,12 @@
 import mongoose from "mongoose";
 
+// Materias que da cada profesor
+const specialtySchema = new mongoose.Schema({
+    name: String
+});
+export const specialty = mongoose.model('Specialty', specialtySchema);
+
+
 //Usuarios (Administrativo/pedagogico)
 const userSchema = new mongoose.Schema({
     username:{
@@ -26,20 +33,12 @@ const userSchema = new mongoose.Schema({
         type: String,
     },
     isActive: Boolean,
-    specialty: [specialty],
+    specialty: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Specialty' // Esto hace referencia al modelo de especialidades
+      }],
     birthday: {
         type: Date
     },
 });
-
-// Materias que da cada profesor
-const specialtySchema = new mongoose.Schema({
-    name: String
-});
-
-//Sueldos
- 
-
-//Exports
 export const user = mongoose.model('User',userSchema);
-export const specialty = mongoose.model('Specialty', specialtySchema);
