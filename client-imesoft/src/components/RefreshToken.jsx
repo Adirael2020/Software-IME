@@ -26,7 +26,7 @@ const RefreshToken = ({ children }) => {
                     }
                 };
                 if(pathname === '/login' || pathname === '/login/registerStudent'){
-                    if (data) navigate.push('/homePage');
+                    if (!data.notLogued) navigate.push('/homePage');
                 }
             } catch (error) {
                 console.error('Error al cargar el usuario:', error);
