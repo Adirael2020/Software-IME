@@ -4,7 +4,7 @@ import { setupListeners } from "@reduxjs/toolkit/dist/query";
 //query
 import { authApi } from "./services/userApi.js";
 
-export const store = configureStore({
+const store = configureStore({
     reducer: {
         user: userReducer,
         [authApi.reducerPath]: authApi.reducer,
@@ -14,3 +14,5 @@ export const store = configureStore({
 });
 
 setupListeners(store.dispatch);
+
+export default store;

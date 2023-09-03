@@ -11,3 +11,13 @@ export const authRequired = (req,res,next) =>{
         next();
     });
 };
+
+export const refresh = (req,res,next) =>{
+    const {token} = req.cookies;
+    if(!token) return res.json({notLogued:true});
+    jwt.verify(token,TOKEN_SECRET, (err,user) =>{
+        if (err) return res.status(401).json({message : "Unauthorized"});
+        req.user = user;
+        next();
+    });
+}

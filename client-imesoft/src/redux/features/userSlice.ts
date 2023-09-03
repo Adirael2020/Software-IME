@@ -1,20 +1,21 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+const initialState = {
+    user: null,
+  };
+
+
 export const userSlice = createSlice({
     name: "user",
-    initialState: null,
+    initialState,
     reducers: {
         logUser: (state, action) => {
-            if (state !== null ) state.user = action.payload;
+            state.user = action.payload;
         },
         outUser: (state, action) => {
             state.user = null;
         },
         editUser: (state, action) => {
-            const index = state.findIndex(usuario => usuario.id === action.payload.id);
-            if (index !== -1) {
-                state[index] = action.payload;
-            }
         },
     }
 });

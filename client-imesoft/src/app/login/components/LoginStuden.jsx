@@ -1,5 +1,6 @@
 "use client"
 import { useForm } from "react-hook-form";
+import Link from 'next/link'
 
 const LoginStuden = () => {
     //React Hook Form
@@ -38,6 +39,9 @@ const LoginStuden = () => {
 
                 <button>Login</button>
             </form>
+            <p className="flex gap-x-2 justify-between">
+                No tienes Cuenta? <Link href="/login/registerStudent" className="text-sky-500">Registrarse</Link>
+            </p>
         </div>
     )
 }

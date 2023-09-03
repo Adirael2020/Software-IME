@@ -1,10 +1,17 @@
 "use client"
 
-import { store } from "./store";
+import  store  from "./store.ts";
 import { Provider } from "react-redux";
+
+import RefreshToken from "@/components/RefreshToken.jsx";
 
 
 export function Providers({ children }) {
-
-  return <Provider store={store}>{children}</Provider>;
-}
+  return(
+    <Provider store={store}>
+      <RefreshToken>
+        {children}
+      </RefreshToken>
+    </Provider>
+  );
+};
