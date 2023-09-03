@@ -1,16 +1,34 @@
 "use client"
+import { useRouter } from 'next/navigation';
+//Formulario
 import { useForm } from "react-hook-form";
+//Redux
+import { useDispatch } from 'react-redux';
+import { useLoginUserMutation } from "@/redux/services/userApi.js";
+import { logUser } from "@/redux/features/userSlice.ts";
 
 const LoginUser = () => {
+    const navigate = useRouter();
     //React Hook Form
     const {
         register,
         handleSubmit,
         formState: { errors },
     } = useForm();
+    //Contex
+    const [ loginUser , isLoading, isError  ]= useLoginUserMutation();
+    const dispatch = useDispatch();
 
-    //Envio de datos
-    const onSubmit = (data) => console.log(data);
+    //Funcion de Login
+    const onSubmit = async (data) => {
+        try { 
+            const result = await loginUser(data);
+            dispatch(logUser(result.data));
+            navigate.push('/Home');
+        } catch (error) {
+            console.error('Error de inicio de sesión:', error);
+        }
+    };
 
     return (
         <div className="p-2">

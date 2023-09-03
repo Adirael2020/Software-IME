@@ -6,19 +6,19 @@ import { createAccessToken } from '../libs/jwt.js';
 //Login para todo lo que son usuarios como administrativos, gerencia, profesores
 
 //Iniciar sesion
-export const loginUser = async(req,res) => {
-    const {username, password} = req.body;
+export const loginUser = async (req, res) => {
+    const { username, password } = req.body;
 
     try {
-        const userFound = await user.findOne({username});       
-        if (!userFound) return res.status(400).json({message: "invalid credentials"});
+        const userFound = await user.findOne({ username });
+        if (!userFound) return res.status(400).json({ message: "invalid credentials" });
 
         const isMatch = await bcrypt.compare(password, userFound.password);
-        if(!isMatch) return res.status(400).json({message: "invalid credentials"})
-        
-        if(!userFound.isActive) return res.status(400).json({message: "User is not Active"});
+        if (!isMatch) return res.status(400).json({ message: "invalid credentials" })
 
-        const token = await createAccessToken({id: userFound._id});
+        if (!userFound.isActive) return res.status(400).json({ message: "User is not Active" });
+
+        const token = await createAccessToken({ id: userFound._id });
 
         res.cookie("token", token);
         res.json({
@@ -30,14 +30,34 @@ export const loginUser = async(req,res) => {
             specialty: userFound.specialty
         })
     } catch (error) {
-        res.status(500).json({message: error.message});
+        res.status(500).json({ message: error.message });
     }
 };
 
 //Cerrar sesion
-export const logoutUser = async(req,res) =>{
-    res.cookie('token', "" ,{
+export const logoutUser = async (req, res) => {
+    res.cookie('token', "", {
         expires: new Date(0)
     });
     return res.sendStatus(200);
+};
+
+//Recarga Sesion
+export const loadUser = async (req, res) => {
+    const id = req.user.id;
+    try {
+        const userFound = await user.findOne({ _id: id });
+        if (!userFound) return res.status(400).json({ message: "invalid credentials" });
+        if (!userFound.isActive) return res.status(400).json({ message: "User is not Active" });
+        res.json({
+            id: userFound._id,
+            username: userFound.username,
+            fullname: userFound.fullname,
+            email: userFound.email,
+            hierarchy: userFound.hierarchy,
+            specialty: userFound.specialty
+        })
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
 };

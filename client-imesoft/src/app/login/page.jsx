@@ -1,14 +1,13 @@
-//"use client"
-//import { Link, useNavigate } from "react-router-dom";
+"use client"
 
-//import { useEffect } from "react";
+//Redux
+import { useSelector } from "react-redux";
 
 //Components
 import LoginUser from "./components/LoginUser.jsx";
 import LoginStuden from "./components/LoginStuden.jsx";
 
 const login = () => {
-
 
   return (
     <div className="flex items-center justify-center h-screen flex-col">
