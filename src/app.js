@@ -18,6 +18,13 @@ app.use(cors({
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(cookieParser());
+app.use((req, res, next) => {
+    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+    res.setHeader('Pragma', 'no-cache');
+    res.setHeader('Expires', '0');
+    res.setHeader('Surrogate-Control', 'no-store');
+    next();
+  });
 
 //Routs
 app.use('/api',authRoutes);
