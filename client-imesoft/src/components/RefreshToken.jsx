@@ -21,7 +21,6 @@ const RefreshToken = ({ children }) => {
                         if (data.notLogued) navigate.push('/login');
                         if (!isLoading && !error && data) {
                             dispatch(logUser(data));
-                            console.log(data);
                             setLoading(false);
                         }
                     }

@@ -24,7 +24,7 @@ const LoginUser = () => {
         try { 
             const result = await loginUser(data);
             dispatch(logUser(result.data));
-            navigate.push('/Home');
+            navigate.push('/homePage');
         } catch (error) {
             console.error('Error de inicio de sesión:', error);
         }
