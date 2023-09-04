@@ -9,7 +9,7 @@ import HomeUser from './components/HomeUser';
 const Home = () => {
 
   const user = useSelector((state) => state.user.user);
-  const {hierarchy} = user; 
+  const {hierarchy} = user;
   
   if(hierarchy === 'Admin') return <HomeAdmin/>;
   if(hierarchy === 'Student') return <HomeStudents/>;
