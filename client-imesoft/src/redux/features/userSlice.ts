@@ -13,7 +13,7 @@ export const userSlice = createSlice({
             state.user = action.payload;
         },
         outUser: (state, action) => {
-            state.user = null;
+            state.user = {};
         },
         editUser: (state, action) => {
         },

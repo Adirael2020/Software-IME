@@ -13,7 +13,7 @@ const Home = () => {
   
   if(hierarchy === 'Admin') return <HomeAdmin/>;
   if(hierarchy === 'Student') return <HomeStudents/>;
-  if(hierarchy === '') return <HomeUser/>;
+  return <HomeUser/>;
 }
 
 export default Home
