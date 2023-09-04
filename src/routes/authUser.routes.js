@@ -10,7 +10,7 @@ const router = Router();
 
 router.post("/loginUser",validateSchema(loginUserSchema),loginUser);
 router.get("/loadUserToken",refresh,loadUser);
-router.post("/logoutUser",logoutUser);
+router.post("/logoutUser",authRequired,logoutUser);
 
 export default router;
 

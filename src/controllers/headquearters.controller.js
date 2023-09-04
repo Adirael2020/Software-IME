@@ -17,7 +17,13 @@ export const createHeadquearter = async (req,res) => {
 };
 //Obtener todas las sedes
 export const getHeadquearters = async (req,res) => {
-
+    const heads = headquearter.find({}, (err, heads) => {
+        if (err) {
+          console.error('Error al buscar sedes:', err);
+          return;
+        };
+    });
+    console.log(heads);
 };
 //Obtener una sede
 export const getHeadquearter = async (req,res) => {
