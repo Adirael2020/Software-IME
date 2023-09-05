@@ -27,10 +27,12 @@ app.use((req, res, next) => {
     next();
   });
 */
+
+
 //Routs
 app.use('/api',authRoutes);
 app.use('/api',headqueaterRoutes);
-app.use('/api', userRoutes);
+app.use('/api',userRoutes);
 
 
 

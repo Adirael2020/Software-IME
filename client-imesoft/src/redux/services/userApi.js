@@ -7,7 +7,7 @@ export const authApi = createApi({
         credentials: 'include'
     }),
     endpoints: (builder) => ({
-        //Log
+        //Login
         loginUser: builder.mutation({
             query: (credentials) => ({
                 url: '/loginUser',
@@ -22,6 +22,7 @@ export const authApi = createApi({
                 method: 'POST', 
             }),
         }),
+        //Refresh
         loadUser: builder.query({
             query: () => ({
                 url: '/loadUserToken'
