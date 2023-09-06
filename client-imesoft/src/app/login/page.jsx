@@ -13,28 +13,28 @@ const login = () => {
   const [visual, setVisual] = useState(true);
 
   return (
-    <div className="flex items-center justify-center h-screen">
-      <div className="bg-zinc-800 rounded-sm text-white w-3/5 h-3/5 md:w-2/5 md:h-2/5">
+    <div className="flex items-center justify-center h-screen bg-gradient-to-r from-blue-900 to bg-slate-900">
+      <div className="bg-slate-800/30  border-b-2 border-slate-700  text-white overflow-visible  w-3/5 h-3/5 md:w-2/5 md:h-2/5 ">
         <div className=" flex justify-center items-center">
           <Button
             onClick={() => {
               setVisual(true);
             }}
             text={"Personal"}
-            className="bg-slate-900 text-white w-1/2"
+            className="bg-slate-900 text-white w-1/2  font-medium hover:bg-slate-800"
           />
           <Button
             onClick={() => {
               setVisual(false);
             }}
             text={"Alumno"}
-            className="bg-green-900 text-white w-1/2"
+            className="bg-slate-900 text-white w-1/2 font-medium hover:bg-slate-800"
           />
         </div>
         <div className="p-5">
-          <div className="">
+          <div className="flex justify-center items-center">
             <label htmlFor="login" className="mx-center">
-              Login
+              LOGIN
             </label>
           </div>
           <div className="">
