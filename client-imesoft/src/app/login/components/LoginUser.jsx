@@ -38,7 +38,7 @@ const LoginUser = () => {
                     type="username"
                     name="username"
                     placeholder="Usuario"
-                    className="w-full focus:outline-none appearance-none placeholder:italic placeholder:text-slate-600 bg-transparent font-medium border-b-2 border-slate-700 text-black px-4 py-2 my-4"
+                    className="w-full focus:outline-none appearance-none placeholder:italic placeholder:text-slate-600 bg-transparent font-medium border-b-2 border-slate-700 text-white px-4 py-2 my-4"
                     {...register("username", { required: true })}
                 />
                 <p>{errors.username?.message}</p>
@@ -46,7 +46,7 @@ const LoginUser = () => {
                     type="password"
                     name="password"
                     placeholder="Contraseña"
-                    className="w-full focus:outline-none appearance-none bg-transparent placeholder:italic placeholder:text-slate-600  border-b-2 border-slate-700 text-black px-4 py-2 my-4"
+                    className="w-full focus:outline-none appearance-none bg-transparent placeholder:italic placeholder:text-slate-600  border-b-2 border-slate-700 text-white px-4 py-2 my-4"
                     {...register("password", { required: true, minLength: 6 })}
                 />
                 <p>{errors.password?.message}</p>
