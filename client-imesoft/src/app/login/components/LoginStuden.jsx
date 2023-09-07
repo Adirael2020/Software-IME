@@ -16,31 +16,30 @@ const LoginStuden = () => {
     return (
         <div className="p-2">
             <form onSubmit={handleSubmit(onSubmit)}>
-                <label htmlFor="email">Email:</label>
                 <input
                     label="Write your email"
                     type="email"
                     name="email"
-                    placeholder="youremail@domain.tld"
-                    className="w-full bg-zinc-700 text-white px-4 py-2 rounded-md"
+                    placeholder="Mail"
+                    className="w-full focus:outline-none appearance-none bg-transparent font-medium border-b-2 placeholder:italic placeholder:text-slate-600 border-slate-700 text-black px-4 py-2 my-4"
                     {...register("email", { required: true })}
                 />
                 <p>{errors.email?.message}</p>
 
-                <label htmlFor="password">Password:</label>
                 <input
                     type="password"
                     name="password"
-                    placeholder="Write your password"
-                    className="w-full bg-zinc-700 text-white px-4 py-2 rounded-md"
+                    placeholder="Contraseña"
+                    className="w-full focus:outline-none appearance-none bg-transparent placeholder:italic placeholder:text-slate-600  border-b-2 border-slate-700 text-black px-4 py-2 my-4"
                     {...register("password", { required: true, minLength: 6 })}
                 />
                 <p>{errors.password?.message}</p>
-
-                <button>Login</button>
+                <div className='flex items-center justify-center my-4'>
+                    <button className='bg-slate-900 text-white w-1/2 font-medium hover:bg-slate-800 p-2 rounded-full'>Ingresar</button>
+                </div>
             </form>
             <p className="flex gap-x-2 justify-between">
-                No tienes Cuenta? <Link href="/login/registerStudent" className="text-sky-500">Registrarse</Link>
+                ¿No tenes Cuenta? <Link href="/login/registerStudent" className="text-slate-400 hover:text-slate-500">Registrarse</Link>
             </p>
         </div>
     )
