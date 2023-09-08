@@ -2,8 +2,6 @@
 import Button from "@/components/Button"
 
 const HeadCard = ({ headquearter }) => {
-    console.log("Entra");
-    console.log(headquearter);
     return (
         <div>
             <div>{headquearter.name} {headquearter.abbreviation}</div>
