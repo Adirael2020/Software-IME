@@ -34,7 +34,7 @@ const login = () => {
         </div>
         <div className="p-5">
           <div className="flex justify-center items-center">
-            <label htmlFor="login" className="mx-center">
+            <label htmlFor="login" className="mx-center text-2xl font-bold">
               LOGIN
             </label>
           </div>
