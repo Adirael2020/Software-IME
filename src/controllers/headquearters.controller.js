@@ -49,7 +49,7 @@ export const editHeadquearters = async (req,res) => {
       }
 };
 //Eliminar una Sede
-export const deleteHeadquearters = async (req,res) => {
+export const deleteHeadquearters = async (req,res) => { 
     try {
         const deletedHeadquearter = await headquearter.findByIdAndDelete(req.params.id);
         if (!deletedHeadquearter) return res.status(404).json({ message: "Headquearter not found" });

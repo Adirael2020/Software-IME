@@ -29,7 +29,7 @@ const LoginUser = () => {
   },[error]) //Cuando salta el mensaje de error de credenciales a los 5sg desaparece
 
   //Contex
-  const [loginUser, isLoading, isError, errors] = useLoginUserMutation();
+  const [loginUser, isLoading] = useLoginUserMutation();
   const dispatch = useDispatch();
 
   //Funcion de Login

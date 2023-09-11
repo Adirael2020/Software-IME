@@ -1,11 +1,14 @@
 "use client"
+import { useRouter } from "next/navigation";
+//Components
 import Loading from "@/components/Loading";
 import HeadCard from "./components/HeadCard";
-
+import Button from "@/components/Button";
+//Redux
 import { useGetHeadqueartersQuery } from "@/redux/services/headquearterApi"
 
 const HeadquearterList = () => {
-
+  const navigate = useRouter();
   const { data, isLoading, isError } = useGetHeadqueartersQuery();
 
   function renderMain(data, isLoading) {
@@ -22,7 +25,7 @@ const HeadquearterList = () => {
 
   return (
     <div>
-      Lista
+      Lista <Button text={"Nueva Sede"} className="bg-green-600 p-2" onClick={()=>{navigate.push('/homePage/headquearters/newHeadquearter');}} />
       <div>
         {renderMain(data,isLoading)}
       </div>

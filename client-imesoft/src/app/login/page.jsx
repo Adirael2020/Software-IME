@@ -1,7 +1,6 @@
 "use client";
 
 //Redux
-import { useSelector } from "react-redux";
 import Button from "@/components/Button.jsx";
 
 //Components
