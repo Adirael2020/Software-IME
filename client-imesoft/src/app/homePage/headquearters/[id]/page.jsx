@@ -1,8 +1,12 @@
+import FormHead from "../components/FormHead"
 
 
 const FormHeadquearter = () => {
   return (
-    <div>FormHeadquearter</div>
+    <div>
+      Creacion / Edicion de Sede
+      <FormHead/>
+    </div>
   )
 }
 

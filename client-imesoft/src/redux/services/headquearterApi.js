@@ -46,4 +46,4 @@ export const headApi = createApi({
     })
 });
 
-export const {useGetHeadqueartersQuery, useGetHeadquearterMutation, useDeleteHeadquearterMutation, useEditHeadquearterMutation} = headApi;
+export const {useGetHeadqueartersQuery, useGetHeadquearterMutation, useDeleteHeadquearterMutation, useEditHeadquearterMutation, useCreateHeadquearterMutation} = headApi;
