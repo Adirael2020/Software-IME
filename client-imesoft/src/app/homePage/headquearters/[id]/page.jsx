@@ -1,10 +1,18 @@
+"use client"
 import FormHead from "../components/FormHead"
-
+import { useParams } from "next/navigation"
 
 const FormHeadquearter = () => {
+
+  const params = useParams();
+
   return (
     <div>
-      Creacion / Edicion de Sede
+      {params.id !== "newHeadquearter" ?
+      <div>Edicion</div>
+      :
+      <div>Nueva Sede</div>
+    }
       <FormHead/>
     </div>
   )

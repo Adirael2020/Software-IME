@@ -1,6 +1,7 @@
 "use client"
 
-import { useRouter, useSearchParams} from "next/navigation";
+import { useEffect } from "react";
+import { useRouter, useParams} from "next/navigation";
 //Formulario
 import { useForm } from "react-hook-form";
 //Components 
@@ -10,7 +11,7 @@ import { useGetHeadquearterMutation, useCreateHeadquearterMutation } from "@/red
 
 const FormHead = () => {
     const navigate = useRouter();
-    const params = useSearchParams();
+    const params = useParams();
     const [createHeadquearter, isLoadingCreate] = useCreateHeadquearterMutation();
     const [getHeadquearter, isLoadingGet] = useGetHeadquearterMutation();
 
@@ -26,7 +27,26 @@ const FormHead = () => {
 
     };
 
-    console.log(params.get(''));
+
+    useEffect(()=>{
+
+        async function getData(){
+            const response = await getHeadquearter(params.id);
+            const {abbreviation,name,direction} = response.data;
+            reset({
+                name,
+                direction,
+                abbreviation
+            });
+        }
+
+        if(params.id !== "newHeadquearter"){
+            getData(); 
+        } else {
+
+        }
+      },[]);
+
 
     return (
         <div>
@@ -35,7 +55,7 @@ const FormHead = () => {
                     type="name"
                     name="name"
                     placeholder="Nombre de Sede"
-                    className="w-full focus:outline-none appearance-none placeholder:italic placeholder:text-slate-600 bg-transparent font-medium border-b-2 border-slate-700 text-white px-4 py-2 my-4"
+                    className="w-full focus:outline-none appearance-none placeholder:italic placeholder:text-slate-600 bg-transparent font-medium border-b-2 border-slate-700 px-4 py-2 my-4"
                     {...register("name", {
                         required: { value: true, message: "Se requiere nombre de Sede" },
                     })}
@@ -45,7 +65,7 @@ const FormHead = () => {
                     type="abbreviation"
                     name="abbreviation"
                     placeholder="Abreviacion"
-                    className="w-full focus:outline-none appearance-none placeholder:italic placeholder:text-slate-600 bg-transparent font-medium border-b-2 border-slate-700 text-white px-4 py-2 my-4"
+                    className="w-full focus:outline-none appearance-none placeholder:italic placeholder:text-slate-600 bg-transparent font-medium border-b-2 border-slate-700 px-4 py-2 my-4"
                     {...register("abbreviation", {
                         required: { value: true, message: "Se requiere Abreviacion de Sede" },
                         maxLength: {value: 2, message: "Solamente 2 Letras"}
@@ -56,7 +76,7 @@ const FormHead = () => {
                     type="direction"
                     name="direction"
                     placeholder="Direccion"
-                    className="w-full focus:outline-none appearance-none placeholder:italic placeholder:text-slate-600 bg-transparent font-medium border-b-2 border-slate-700 text-white px-4 py-2 my-4"
+                    className="w-full focus:outline-none appearance-none placeholder:italic placeholder:text-slate-600 bg-transparent font-medium border-b-2 border-slate-700 px-4 py-2 my-4"
                     {...register("direction", {
                         required: { value: true, message: "Se requiere Direccion de Sede" },
                     })}

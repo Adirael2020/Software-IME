@@ -11,7 +11,7 @@ const router = Router();
 //Obtener todas
 router.get('/headquearters',authRequired,getHeadquearters);
 //Obtener una
-router.get('/headquearter/:id',authRequired,getHeadquearter);
+router.post('/headquearter/:id',authRequired,getHeadquearter);
 //Crear
 router.post('/createHeadquearter',authRequired,validateSchema(headquearterSchema),createHeadquearter);
 //Borrar
