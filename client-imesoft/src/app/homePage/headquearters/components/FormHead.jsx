@@ -1,4 +1,6 @@
-import { useRouter, usePathname } from "next/navigation";
+"use client"
+
+import { useRouter, useSearchParams} from "next/navigation";
 //Formulario
 import { useForm } from "react-hook-form";
 //Components 
@@ -8,7 +10,7 @@ import { useGetHeadquearterMutation, useCreateHeadquearterMutation } from "@/red
 
 const FormHead = () => {
     const navigate = useRouter();
-    const pathname = usePathname();
+    const params = useSearchParams();
     const [createHeadquearter, isLoadingCreate] = useCreateHeadquearterMutation();
     const [getHeadquearter, isLoadingGet] = useGetHeadquearterMutation();
 
@@ -23,6 +25,8 @@ const FormHead = () => {
     const onSubmit = async (data) => {
 
     };
+
+    console.log(params.get(''));
 
     return (
         <div>
