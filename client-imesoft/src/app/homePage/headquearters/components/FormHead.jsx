@@ -7,13 +7,14 @@ import { useForm } from "react-hook-form";
 //Components 
 import Button from "@/components/Button";
 //redux
-import { useGetHeadquearterMutation, useCreateHeadquearterMutation } from "@/redux/services/headquearterApi";
+import { useGetHeadquearterMutation, useCreateHeadquearterMutation, useEditHeadquearterMutation } from "@/redux/services/headquearterApi";
 
 const FormHead = () => {
     const navigate = useRouter();
     const params = useParams();
     const [createHeadquearter, isLoadingCreate] = useCreateHeadquearterMutation();
     const [getHeadquearter, isLoadingGet] = useGetHeadquearterMutation();
+    const [editHeadquearter, isloadingEdit] = useEditHeadquearterMutation();
 
     //React Hook Form
     const {
@@ -38,6 +39,15 @@ const FormHead = () => {
             getData();
         };
     }, []);
+    //Messange
+    const [message, setMessage] = useState();
+    useEffect(() => {
+        if (error !== undefined) {
+            setTimeout(() => {
+                setMessage()
+            }, 5000)
+        }
+    }, [message]) //Cuando salta el mensaje a los 5sg desaparece  
     //Errors
     const [error, setError] = useState();
     useEffect(() => {
@@ -51,7 +61,13 @@ const FormHead = () => {
     //Submit
     const onSubmit = async (data) => {
         if (params.id !== "newHeadquearter") {
-            console.log("guardar Cambios");
+            console.log(params.id);
+            const result = await editHeadquearter(data,params.id);
+            console.log(result);
+            setTimeout(() => {
+                setMessage("Guardado Correctamente")
+            }, 3000);
+            navigate.push('/homePage/headquearters')
         } else {
             console.log("Crear");
         }
