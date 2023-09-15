@@ -1,7 +1,7 @@
 "use client"
 
-import { useEffect } from "react";
-import { useRouter, useParams} from "next/navigation";
+import { useEffect, useState } from "react";
+import { useRouter, useParams } from "next/navigation";
 //Formulario
 import { useForm } from "react-hook-form";
 //Components 
@@ -23,30 +23,39 @@ const FormHead = () => {
         reset
     } = useForm();
 
-    const onSubmit = async (data) => {
-
-    };
-
-
-    useEffect(()=>{
-
-        async function getData(){
+    //PreCarga
+    useEffect(() => {
+        async function getData() {
             const response = await getHeadquearter(params.id);
-            const {abbreviation,name,direction} = response.data;
+            const { abbreviation, name, direction } = response.data;
             reset({
                 name,
                 direction,
                 abbreviation
             });
         }
-
-        if(params.id !== "newHeadquearter"){
-            getData(); 
-        } else {
-
+        if (params.id !== "newHeadquearter") {
+            getData();
+        };
+    }, []);
+    //Errors
+    const [error, setError] = useState();
+    useEffect(() => {
+        if (error !== undefined) {
+            setTimeout(() => {
+                setError()
+            }, 5000)
         }
-      },[]);
+    }, [error]) //Cuando salta el mensaje de error de credenciales a los 5sg desaparece
 
+    //Submit
+    const onSubmit = async (data) => {
+        if (params.id !== "newHeadquearter") {
+            console.log("guardar Cambios");
+        } else {
+            console.log("Crear");
+        }
+    };
 
     return (
         <div>
@@ -68,7 +77,7 @@ const FormHead = () => {
                     className="w-full focus:outline-none appearance-none placeholder:italic placeholder:text-slate-600 bg-transparent font-medium border-b-2 border-slate-700 px-4 py-2 my-4"
                     {...register("abbreviation", {
                         required: { value: true, message: "Se requiere Abreviacion de Sede" },
-                        maxLength: {value: 2, message: "Solamente 2 Letras"}
+                        maxLength: { value: 2, message: "Solamente 2 Letras" }
                     })}
                 />
                 <p className="text-red-700">{formErrors.abbreviation?.message}</p>
@@ -82,6 +91,15 @@ const FormHead = () => {
                     })}
                 />
                 <p className="text-red-700">{formErrors.direction?.message}</p>
+                <div className="flex items-center justify-center ">
+                    <button className="bg-slate-900 text-white w-1/2 font-medium hover:bg-slate-800 p-2 rounded-full">
+                        {
+                            params.id !== "newHeadquearter"
+                                ? <div>Guardar Cambios</div>
+                                : <div>Crear</div>
+                        }
+                    </button>
+                </div>
             </form>
         </div>
     )
