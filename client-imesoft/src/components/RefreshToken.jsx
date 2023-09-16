@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { logUser } from "@/redux/features/userSlice";
 import { useLoadUserQuery } from "@/redux/services/userApi";
-import { useRouter, usePathname } from "next/navigation";
+import { useRouter, usePathname} from "next/navigation";
 
 const RefreshToken = ({ children }) => {
   const navigate = useRouter();
@@ -12,12 +12,15 @@ const RefreshToken = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const { data, error, isLoading } = useLoadUserQuery();
 
+
   useEffect(() => {
     const loadUserFromBackend = async () => {
       try {
         if (pathname !== "/login" || pathname !== "/login/registerStudent") {
           if (!isLoading) {
-            if (data.notLogued) navigate.push("/login");
+            if (data.notLogued) {
+              navigate.push("/login");
+            };
             if (!isLoading && !error && data) {
               dispatch(logUser(data));
               setLoading(false);
@@ -38,5 +41,6 @@ const RefreshToken = ({ children }) => {
 
   return <div>{loading ? <div>Cargando</div> : children}</div>;
 };
+
 
 export default RefreshToken;
