@@ -12,6 +12,7 @@ export const headApi = createApi({
             query: () => ({
                 url: '/headquearters'
             }),
+            providesTags: ["Heads"],
         }),
         //Get 1
         getHeadquearter: builder.mutation({
@@ -27,14 +28,16 @@ export const headApi = createApi({
                 method: 'POST',
                 body: newHeadquearter, 
             }),
+            invalidatesTags: ["Heads"],
         }),
         //Edit
         editHeadquearter: builder.mutation({
-            query: (editHeadquearter,id) => ({
-                url: `/editHeadquearters/${id}`,
+            query: (editHeadquearter) => ({
+                url: `/editHeadquearters/${editHeadquearter.id}`,
                 method: 'PUT',
                 body: editHeadquearter, 
             }),
+            invalidatesTags: ["Heads"],
         }),    
         //Delete
         deleteHeadquearter: builder.mutation({
@@ -42,6 +45,7 @@ export const headApi = createApi({
                 url: `/deleteHeadquearter/${id}`,
                 method: 'DELETE', 
             }),
+            invalidatesTags: ["Heads"],
         }),
     })
 });

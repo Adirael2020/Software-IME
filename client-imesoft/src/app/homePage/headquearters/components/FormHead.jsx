@@ -62,7 +62,13 @@ const FormHead = () => {
     const onSubmit = async (data) => {
         if (params.id !== "newHeadquearter") {
             console.log(params.id);
-            const result = await editHeadquearter(data,params.id);
+            const editHead = {
+                id: params.id,
+                name: data.name,
+                abbreviation: data.abbreviation,
+                direction: data.direction
+            }
+            const result = await editHeadquearter(editHead);
             console.log(result);
             setTimeout(() => {
                 setMessage("Guardado Correctamente")

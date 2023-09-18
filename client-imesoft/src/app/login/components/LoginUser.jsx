@@ -1,11 +1,8 @@
 "use client";
 import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
 //Formulario
 import { useForm } from "react-hook-form";
-//Redux
-import { useDispatch } from "react-redux";
-import { useLoginUserMutation } from "@/redux/services/userApi.js";
-import { logUser } from "@/redux/features/userSlice.ts";
 //React
 import { useEffect, useState } from "react";
 
@@ -28,18 +25,20 @@ const LoginUser = () => {
     }
   },[error]) //Cuando salta el mensaje de error de credenciales a los 5sg desaparece
 
-  //Contex
-  const [loginUser, isLoading] = useLoginUserMutation();
-  const dispatch = useDispatch();
-
   //Funcion de Login
   const onSubmit = async (data) => {
+    console.log(data);
     try {
-      const result = await loginUser(data);
+      console.log("va");
+      const result = await signIn("credentials", {
+        username: data.username,
+        password: data.password,
+        redirect: false,
+      });
+      console.log(result);
       if (result?.error) {
         setError(result.error.data.message)
       } else {
-        dispatch(logUser(result.data));
         navigate.push('/homePage');
       }
     } catch (error) {

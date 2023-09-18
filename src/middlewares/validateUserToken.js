@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
 import { TOKEN_SECRET } from '../config.js';
 
+
 export const authRequired = (req,res,next) =>{
     const {token} = req.cookies;
     if(!token) return res.status(401).json({message : "Unauthorized"});
@@ -11,10 +12,12 @@ export const authRequired = (req,res,next) =>{
     });
 };
 
-export const refresh = (req,res,next) =>{
-    const {token} = req.cookies;
+export const refresh = async(req,res,next) =>{
+    const token = req.cookies['next-auth.session-token'];
+    //console.log('2: ',token);
     if(!token) return res.json({notLogued:true});
     jwt.verify(token,TOKEN_SECRET, (err,user) =>{
+        //console.log(err);
         if (err) return res.status(401).json({message : "Unauthorized"});
         req.user = user;
         next();

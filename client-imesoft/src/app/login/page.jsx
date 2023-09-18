@@ -1,7 +1,7 @@
 "use client";
 
 //Redux
-import Button from "@/components/Button.jsx";
+import Button from "../../components/Button.jsx"
 
 //Components
 import LoginUser from "./components/LoginUser.jsx";
