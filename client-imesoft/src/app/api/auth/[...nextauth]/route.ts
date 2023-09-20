@@ -26,6 +26,11 @@ const handler = NextAuth({
             session.user = token.sub as any;
             return session;
         },
+        async jwt({token}){
+            console.log(token);
+            
+            return token
+        }
     },
     secret: "IME5878",
 })

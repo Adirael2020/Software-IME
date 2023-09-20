@@ -1,11 +1,11 @@
 "use client"
 import { useRouter } from "next/navigation";
 //Components
-import Loading from "@/components/Loading";
+import Loading from "../../../components/Loading.jsx";
 import HeadCard from "./components/HeadCard";
-import Button from "@/components/Button";
+import Button from "../../../components/Button.jsx";
 //Redux
-import { useGetHeadqueartersQuery } from "@/redux/services/headquearterApi"
+import { useGetHeadqueartersQuery } from "../../../redux/services/headquearterApi.js"
 
 const HeadquearterList = () => {
   const navigate = useRouter();
