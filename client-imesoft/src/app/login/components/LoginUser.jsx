@@ -5,6 +5,8 @@ import { signIn } from "next-auth/react";
 import { useForm } from "react-hook-form";
 //React
 import { useEffect, useState } from "react";
+//css
+import styles from "../../styles/login.module.css" 
 
 const LoginUser = () => {
   const navigate = useRouter();
@@ -57,7 +59,7 @@ const LoginUser = () => {
           type="username"
           name="username"
           placeholder="Usuario"
-          className="w-full focus:outline-none appearance-none placeholder:italic placeholder:text-slate-600 bg-transparent font-medium border-b-2 border-slate-700 text-white px-4 py-2 my-4"
+          className=" w-full focus:outline-none appearance-none placeholder:italic placeholder:text-slate-600 bg-transparent font-medium border-b-2 border-slate-700 text-white px-4 py-2 my-4"
           {...register("username", {
             required: { value: true, message: "Se requiere nombre de Usuario" },
           })}
