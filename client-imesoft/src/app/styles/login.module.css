@@ -1,3 +1,6 @@
-.algo {
-    padding: 100px;
+.conteiner{
+    width: 370px;
+    height: 370px;
+    background-color: black;
+    justify-content: center;
 }
