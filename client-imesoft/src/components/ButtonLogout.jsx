@@ -4,12 +4,10 @@ import React from 'react'
 import { useDispatch } from 'react-redux'
 import { outUser } from '../redux/features/userSlice'
 import { useLogoutUserMutation } from '../redux/services/userApi.js';
-import { useRouter } from 'next/navigation';
 import { signOut } from "next-auth/react";
 
 const ButtonLogout = () => {
   
-    const navigate = useRouter();
     const dispatch = useDispatch();
     const [logoutUser] = useLogoutUserMutation();
     const logOut = async() => {
