@@ -5,9 +5,9 @@ import { useRouter, useParams } from "next/navigation";
 //Formulario
 import { useForm } from "react-hook-form";
 //Components 
-import Button from "@/components/Button";
+import Button from "../../../../components/Button.jsx";
 //redux
-import { useGetHeadquearterMutation, useCreateHeadquearterMutation, useEditHeadquearterMutation } from "@/redux/services/headquearterApi";
+import { useGetHeadquearterMutation, useCreateHeadquearterMutation, useEditHeadquearterMutation } from "../../../../redux/services/headquearterApi.js";
 
 const FormHead = () => {
     const navigate = useRouter();

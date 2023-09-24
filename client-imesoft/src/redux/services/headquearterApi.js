@@ -1,11 +1,13 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
+
 export const headApi = createApi({
     reducerPath: 'headApi',
     baseQuery: fetchBaseQuery({
         baseUrl: 'http://localhost:3000/api',
         credentials: 'include'
     }),
+    tagTypes: ["Heads"],
     endpoints: (builder) => ({
         //Get All
         getHeadquearters: builder.query({
