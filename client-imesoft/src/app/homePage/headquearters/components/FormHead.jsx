@@ -61,7 +61,6 @@ const FormHead = () => {
     //Submit
     const onSubmit = async (data) => {
         if (params.id !== "newHeadquearter") {
-            console.log(params.id);
             const editHead = {
                 id: params.id,
                 name: data.name,
@@ -69,13 +68,16 @@ const FormHead = () => {
                 direction: data.direction
             }
             const result = await editHeadquearter(editHead);
-            console.log(result);
             setTimeout(() => {
                 setMessage("Guardado Correctamente")
             }, 3000);
             navigate.push('/homePage/headquearters')
         } else {
-            console.log("Crear");
+            const result = await createHeadquearter(data);
+            setTimeout(() => {
+                setMessage("Creado Correctamente")
+            }, 3000);
+            navigate.push('/homePage/headquearters')
         }
     };
 
