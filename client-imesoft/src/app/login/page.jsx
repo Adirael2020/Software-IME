@@ -20,7 +20,7 @@ const login = () => {
       <div>
         <Images/>
       </div>
-           <div className="bg-slate-800/30 md:shrink-0 border-b-2 border-slate-700  text-white overflow-visible  w-3/5 h-3/5 md:w-2/5 md:h-2/5 ">
+           <div className=" bg-slate-800/30 overflow-hidden md:shrink-0 border-b-2 border-slate-700  text-white w-3/5 h-3/5 md:w-2/5 md:h-2/5 ">
         <div className=" flex justify-center items-center">
           <Button
             onClick={() => {
