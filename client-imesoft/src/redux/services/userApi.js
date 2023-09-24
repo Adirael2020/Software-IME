@@ -23,9 +23,11 @@ export const authApi = createApi({
             }),
         }),
         //Refresh
-        loadUser: builder.query({
-            query: () => ({
-                url: '/loadUserToken'
+        loadUser: builder.mutation({
+            query: (credentials) => ({
+                url: '/loadUserToken',
+                method: 'POST',
+                body: credentials, 
             }),
         })
         ,
@@ -40,4 +42,4 @@ export const authApi = createApi({
     })
 });
 
-export const { useLoginUserMutation, useLoadUserQuery, useLogoutUserMutation } = authApi;
+export const { useLoginUserMutation, useLoadUserMutation, useLogoutUserMutation } = authApi;

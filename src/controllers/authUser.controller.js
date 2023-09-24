@@ -44,7 +44,7 @@ export const logoutUser = async (req, res) => {
 
 //Recarga Sesion
 export const loadUser = async (req, res) => {
-    const id = req.user.id;
+    const id = req.user;
     try {
         const userFound = await user.findOne({ _id: id });
         if (!userFound) return res.status(400).json({ message: "invalid credentials" });

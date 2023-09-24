@@ -13,6 +13,8 @@ const handler = NextAuth({
             async authorize(credentials, req) {
                 const response = await axios.post('http://localhost:3000/api/loginUser', credentials);
                 const user = response.data;
+
+                
                 return user;
             }
         })
@@ -26,9 +28,7 @@ const handler = NextAuth({
             session.user = token.sub as any;
             return session;
         },
-        async jwt({token}){
-            console.log(token);
-            
+        async jwt({token, account}){          
             return token
         }
     },

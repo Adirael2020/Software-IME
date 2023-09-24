@@ -3,22 +3,15 @@ import { TOKEN_SECRET } from '../config.js';
 
 
 export const authRequired = (req,res,next) =>{
-    const {token} = req.cookies;
+    const token = req.cookies['next-auth.session-token'];
     if(!token) return res.status(401).json({message : "Unauthorized"});
-    jwt.verify(token,TOKEN_SECRET, (err,user) =>{
-        if (err) return res.status(401).json({message : "Unauthorized"});
-        req.user = user;
-        next();
-    });
+    next();
 };
 
 export const refresh = async(req,res,next) =>{
     const token = req.cookies['next-auth.session-token'];
-    if(!token) return res.json({notLogued:true});
-    jwt.verify(token,TOKEN_SECRET, (err,user) =>{
-        console.log(err);
-        if (err) return res.status(401).json({message : "Unauthorized"});
-        req.user = user;
-        next();
-    });
+    if(!token) return res.status(401).json({message : "Unauthorized"});
+    const {user} = req.body;
+    req.user = user;
+    next();
 }

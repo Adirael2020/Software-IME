@@ -29,7 +29,6 @@ const LoginUser = () => {
   const onSubmit = async (data) => {
     console.log(data);
     try {
-      console.log("va");
       const result = await signIn("credentials", {
         username: data.username,
         password: data.password,
@@ -37,7 +36,7 @@ const LoginUser = () => {
       });
       console.log(result);
       if (result?.error) {
-        setError(result.error.data.message)
+        setError("Usuario o Contraseña Incorrecta");
       } else {
         navigate.push('/homePage');
       }
