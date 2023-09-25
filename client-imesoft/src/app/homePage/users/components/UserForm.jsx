@@ -39,13 +39,15 @@ const UserForm = () => {
           className="w-full focus:outline-none appearance-none placeholder:italic placeholder:text-slate-600 bg-transparent font-medium border-b-2 border-slate-700 px-4 py-2 my-4"
           {...register("username", {
             required: { value: true, message: "Se requiere nombre de usuario" },
+            minLength: {value: 2 , message: "Minimo 2 Caracteres"},
+            maxLength: {value: 20, message:"Maximo 20 Caracteres"}
           })}
         />
         <p className="text-red-700">{formErrors.username?.message}</p>
 
         {/* FullName */}
         <input
-          type="fullname"
+          type="text"
           name="fullname"
           placeholder="Nombre Completo de Usuario"
           className="w-full focus:outline-none appearance-none placeholder:italic placeholder:text-slate-600 bg-transparent font-medium border-b-2 border-slate-700 px-4 py-2 my-4"
@@ -57,7 +59,7 @@ const UserForm = () => {
 
         {/* Contraseña */}
         <input
-          type="password"
+          type="text"
           name="password"
           placeholder="Contraseña"
           className="w-full focus:outline-none appearance-none placeholder:italic placeholder:text-slate-600 bg-transparent font-medium border-b-2 border-slate-700 px-4 py-2 my-4"
@@ -66,6 +68,30 @@ const UserForm = () => {
           })}
         />
         <p className="text-red-700">{formErrors.password?.message}</p>
+
+        {/* Email */}
+        <input
+          type="email"
+          name="email"
+          placeholder="Correo Electronico"
+          className="w-full focus:outline-none appearance-none placeholder:italic placeholder:text-slate-600 bg-transparent font-medium border-b-2 border-slate-700 px-4 py-2 my-4"
+          {...register("email", {
+            required: { value: true, message: "Se requiere Correo Electronico" },
+          })}
+        />
+        <p className="text-red-700">{formErrors.email?.message}</p>
+
+        {/* Fecha de Nacimiento */}
+        <input
+          type="date"
+          name="birthday"
+          placeholder="Correo Electronico"
+          className="w-full focus:outline-none appearance-none placeholder:italic placeholder:text-slate-600 bg-transparent font-medium border-b-2 border-slate-700 px-4 py-2 my-4"
+          {...register("birthday", {
+            required: { value: true, message: "Se requiere Fecha de Nacimiento" },
+          })}
+        />
+        <p className="text-red-700">{formErrors.birthday?.message}</p>
 
         <div className="flex items-center justify-center ">
           <button className="bg-slate-900 text-white w-1/2 font-medium hover:bg-slate-800 p-2 rounded-full">
