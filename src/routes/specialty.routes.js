@@ -11,7 +11,7 @@ const router = Router();
 //add
 router.post("/addSpecialty",authRequired,validateSchema(specialtySchema),createSpeciality);
 //get all
-router.get("/getSpecialtys",authRequired);
+router.get("/getSpecialties",authRequired);
 //get
 router.post("/getSpecialty/:id",authRequired);
 //edit

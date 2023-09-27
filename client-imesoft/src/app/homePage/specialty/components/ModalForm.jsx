@@ -1,12 +1,13 @@
 "use client"
-
+import { useEffect } from "react";
+//redux
+import {useCreateSpecialtyMutation} from "../../../../redux/services/specialtyApi.js"
 //Formulario
 import { useForm } from "react-hook-form";
-
 //components
 import Button from "../../../../components/Button";
 
-const ModalForm = () => {
+const ModalForm = ({option}) => {
 
     //React Hook Form
     const {
@@ -16,6 +17,12 @@ const ModalForm = () => {
         reset
     } = useForm();
 
+    const [createSpecialty,isLoadingCreate] = useCreateSpecialtyMutation();
+
+    //load Spec
+    useEffect(()=>{
+
+    },[]);
 
     //Submit
     const onSubmit = async (data) => {
@@ -25,6 +32,12 @@ const ModalForm = () => {
     return (
         <div>
             <form onSubmit={handleSubmit(onSubmit)}>
+                <div>
+                    {option === "new"
+                     ? <>Crear</>
+                     : <>Editar</>
+                    }
+                </div>
                 <div className="flex">
                     <div>
                         <input
