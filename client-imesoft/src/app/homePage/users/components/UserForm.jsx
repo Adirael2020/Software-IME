@@ -65,7 +65,7 @@ const UserForm = () => {
           className="w-full focus:outline-none appearance-none placeholder:italic placeholder:text-slate-600 bg-transparent font-medium border-b-2 border-slate-700 px-4 py-2 my-4"
           {...register("password", {
             required: { value: true, message: "Se requiere contraseña" },
-          })}
+          })} 
         />
         <p className="text-red-700">{formErrors.password?.message}</p>
 
