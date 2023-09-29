@@ -31,3 +31,12 @@ export const getSpecialties = async (req,res) =>{
 //Edit
 //update
 //Delete
+export const deleteSpecialty = async (req,res) =>{
+    try {
+        const deletedSpecialty = await specialty.findByIdAndDelete(req.params.id);
+        if (!deletedSpecialty) return res.status(404).json({ message: "Specialty not found" });
+        return res.sendStatus(204);
+      } catch (error) {
+        return res.status(500).json({ message: error.message });
+      }
+}

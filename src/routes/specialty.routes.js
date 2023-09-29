@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createSpeciality, getSpecialties } from "../controllers/specialty.controller.js";
+import { createSpeciality, getSpecialties, deleteSpecialty } from "../controllers/specialty.controller.js";
 import { authRequired } from "../middlewares/validateUserToken.js";
 
 //Zod
@@ -11,12 +11,12 @@ const router = Router();
 //add
 router.post("/createSpecialty",authRequired,validateSchema(specialtySchema),createSpeciality);
 //get all
-router.get("/getSpecialties",authRequired,getSpecialties);
+router.get("/getSpecialties",authRequired,getSpecialties); 
 //get
 router.post("/getSpecialty/:id",authRequired);
 //edit
 router.post("/editSpecialty/:id",authRequired,validateSchema(specialtySchema));
 //delete
-router.delete("deleteSpecialty/:id",authRequired);
+router.delete("/deleteSpecialty/:id",authRequired,deleteSpecialty);
 
 export default router;

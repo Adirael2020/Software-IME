@@ -11,7 +11,7 @@ export const specApi = createApi({
         //Get All
         getSpecialties: builder.query({
             query: () => ({
-                url: '/'
+                url: '/getSpecialties'
             }),
             providesTags: ["Spec"],
         }),
@@ -43,7 +43,7 @@ export const specApi = createApi({
         //Delete
         deleteSpecialty: builder.mutation({
             query: (id) => ({
-                url: `/deleteHeadquearter/${id}`,
+                url: `/deleteSpecialty/${id}`,
                 method: 'DELETE', 
             }),
             invalidatesTags: ["Spec"],
@@ -51,4 +51,4 @@ export const specApi = createApi({
     })
 });
 
-export const {useCreateSpecialtyMutation} = specApi;
+export const {useCreateSpecialtyMutation,useGetSpecialtiesQuery,useDeleteSpecialtyMutation} = specApi;

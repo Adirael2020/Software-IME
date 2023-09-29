@@ -5,9 +5,9 @@ import {useCreateSpecialtyMutation} from "../../../../redux/services/specialtyAp
 //Formulario
 import { useForm } from "react-hook-form";
 //components
-import Button from "../../../../components/Button";
+import Button from "../../../../components/Button.jsx";
 
-const ModalForm = ({option, closeModal }) => {
+const ModalSpectForm = ({option, closeModal }) => {
     //React Hook Form
     const {
         register,
@@ -62,4 +62,4 @@ const ModalForm = ({option, closeModal }) => {
     )
 }
 
-export default ModalForm
+export default ModalSpectForm;
