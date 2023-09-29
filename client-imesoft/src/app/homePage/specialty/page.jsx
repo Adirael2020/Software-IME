@@ -11,6 +11,10 @@ const specialty = () => {
 
     const [openNew,setOpenNew] = useState(false);
 
+    const closeModal = () => {
+        setOpenNew(false);
+      };
+
     return (
         <div>
             <div>
@@ -20,7 +24,7 @@ const specialty = () => {
             <div>
                 Lista
             </div>
-            {openNew && <ModalForm option={"new"}/>}
+            {openNew && <ModalForm option={"new"} closeModal={closeModal} />}
         </div>
 
     )

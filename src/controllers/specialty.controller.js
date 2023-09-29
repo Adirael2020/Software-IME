@@ -20,6 +20,14 @@ export const getSpeciality = async (req,res) =>{
 
 }
 //GetAll
+export const getSpecialties = async (req,res) =>{
+    try {
+        const specialties = await specialty.find();
+        res.json(specialties);
+      } catch (error) {
+        return res.status(500).json({ message: error.message });
+      };
+}
 //Edit
 //update
 //Delete

@@ -7,8 +7,7 @@ import { useForm } from "react-hook-form";
 //components
 import Button from "../../../../components/Button";
 
-const ModalForm = ({option}) => {
-
+const ModalForm = ({option, closeModal }) => {
     //React Hook Form
     const {
         register,
@@ -26,7 +25,12 @@ const ModalForm = ({option}) => {
 
     //Submit
     const onSubmit = async (data) => {
-
+        if(option === "new"){
+            const result = await createSpecialty(data);
+            console.log(result);
+            closeModal();
+        }
+        console.log(data);
     };
 
     return (
