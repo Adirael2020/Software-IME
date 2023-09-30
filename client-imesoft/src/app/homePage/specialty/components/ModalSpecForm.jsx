@@ -1,13 +1,13 @@
 "use client"
 import { useEffect } from "react";
 //redux
-import {useCreateSpecialtyMutation} from "../../../../redux/services/specialtyApi.js"
+import { useCreateSpecialtyMutation, useGetSpecialtyMutation, useEditSpecialtyMutation } from "../../../../redux/services/specialtyApi.js"
 //Formulario
 import { useForm } from "react-hook-form";
 //components
 import Button from "../../../../components/Button.jsx";
 
-const ModalSpectForm = ({option, closeModal }) => {
+const ModalSpectForm = ({ option, closeModal }) => {
     //React Hook Form
     const {
         register,
@@ -16,21 +16,42 @@ const ModalSpectForm = ({option, closeModal }) => {
         reset
     } = useForm();
 
-    const [createSpecialty,isLoadingCreate] = useCreateSpecialtyMutation();
+    const [createSpecialty, isLoadingCreate] = useCreateSpecialtyMutation();
+    const [getSpecialty, isLoadingGet] = useGetSpecialtyMutation();
+    const [editSpecialty, isloadingEdit] = useEditSpecialtyMutation();
 
     //load Spec
-    useEffect(()=>{
-
-    },[]);
+    useEffect(() => {
+        async function getData() {
+            const response = await getSpecialty(option);
+            const { name } = response.data;
+            reset({
+                name
+            });
+        }
+        if (option !== "new") {
+            getData();
+        };
+    }, []);
 
     //Submit
     const onSubmit = async (data) => {
-        if(option === "new"){
+        if (option === "new") {
             const result = await createSpecialty(data);
             console.log(result);
             closeModal();
+        } else {
+            const editSpec = {
+                id: option,
+                name: data.name
+            };
+            const result = await editSpecialty(editSpec);
+            setTimeout(() => {
+                //setMessage("Guardado Correctamente")
+            }, 3000);
+            console.log(result);
+            closeModal();
         }
-        console.log(data);
     };
 
     return (
@@ -38,8 +59,8 @@ const ModalSpectForm = ({option, closeModal }) => {
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div>
                     {option === "new"
-                     ? <>Crear</>
-                     : <>Editar</>
+                        ? <>Crear</>
+                        : <>Editar</>
                     }
                 </div>
                 <div className="flex">
@@ -55,9 +76,13 @@ const ModalSpectForm = ({option, closeModal }) => {
                         />
                         <p className="text-red-700">{formErrors.name?.message}</p>
                     </div>
-                    <Button text={"Crear"} className="bg-green-600 h-10 p-2"/>
+                    {option === "new"
+                        ? <Button text={"Crear"} className="bg-green-600 h-10 p-2" />
+                        : <Button text={"Guardar"} className="bg-green-600 h-10 p-2" />
+                    }
                 </div>
             </form>
+            <Button text={"X"} className="bg-red-600 h-10 p-2" onClick={()=>{closeModal()}} />
         </div>
     )
 }

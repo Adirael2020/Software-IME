@@ -17,8 +17,14 @@ export const createSpeciality = async (req,res) =>{
 };
 //Get
 export const getSpeciality = async (req,res) =>{
-
-}
+    try {
+        const specialtyFind = await specialty.findById(req.params.id);
+        if (!specialtyFind) return res.status(404).json({ message: "Specialty not found" });
+        return res.json(specialtyFind);
+      } catch (error) {
+        return res.status(500).json({ message: error.message });
+      };
+};
 //GetAll
 export const getSpecialties = async (req,res) =>{
     try {
@@ -27,9 +33,21 @@ export const getSpecialties = async (req,res) =>{
       } catch (error) {
         return res.status(500).json({ message: error.message });
       };
-}
+};
 //Edit
-//update
+export const editSpecialty = async (req,res) =>{
+    try {
+        const {name} = req.body;
+        const specialtyUpdated = await specialty.findOneAndUpdate(
+          { _id: req.params.id },
+          { name },
+          { new: true }
+        );
+        return res.json(specialtyUpdated);  
+    } catch (error) {
+        return res.status(500).json({message:error.message});
+    };
+};
 //Delete
 export const deleteSpecialty = async (req,res) =>{
     try {
@@ -39,4 +57,4 @@ export const deleteSpecialty = async (req,res) =>{
       } catch (error) {
         return res.status(500).json({ message: error.message });
       }
-}
+};

@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createSpeciality, getSpecialties, deleteSpecialty } from "../controllers/specialty.controller.js";
+import { createSpeciality, getSpecialties, deleteSpecialty, getSpeciality,editSpecialty } from "../controllers/specialty.controller.js";
 import { authRequired } from "../middlewares/validateUserToken.js";
 
 //Zod
@@ -13,9 +13,9 @@ router.post("/createSpecialty",authRequired,validateSchema(specialtySchema),crea
 //get all
 router.get("/getSpecialties",authRequired,getSpecialties); 
 //get
-router.post("/getSpecialty/:id",authRequired);
+router.post("/getSpecialty/:id",authRequired,getSpeciality);
 //edit
-router.post("/editSpecialty/:id",authRequired,validateSchema(specialtySchema));
+router.put("/editSpecialty/:id",authRequired,validateSchema(specialtySchema),editSpecialty);
 //delete
 router.delete("/deleteSpecialty/:id",authRequired,deleteSpecialty);
 

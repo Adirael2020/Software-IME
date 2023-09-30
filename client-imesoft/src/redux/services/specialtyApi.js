@@ -18,7 +18,7 @@ export const specApi = createApi({
         //Get 1
         getSpecialty: builder.mutation({
             query: (id) => ({
-                url: `//${id}`,
+                url: `/getSpecialty/${id}`,
                 method: 'POST',
             }),
         }),
@@ -33,10 +33,10 @@ export const specApi = createApi({
         }),
         //Edit
         editSpecialty: builder.mutation({
-            query: (editHeadquearter) => ({
-                url: `/editHeadquearters/${editHeadquearter.id}`,
+            query: (editSpecialty) => ({
+                url: `/editSpecialty/${editSpecialty.id}`,
                 method: 'PUT',
-                body: editHeadquearter, 
+                body: editSpecialty, 
             }),
             invalidatesTags: ["Spec"],
         }),    
@@ -51,4 +51,8 @@ export const specApi = createApi({
     })
 });
 
-export const {useCreateSpecialtyMutation,useGetSpecialtiesQuery,useDeleteSpecialtyMutation} = specApi;
+export const {useCreateSpecialtyMutation,
+    useGetSpecialtiesQuery,
+    useDeleteSpecialtyMutation,
+    useGetSpecialtyMutation,
+    useEditSpecialtyMutation} = specApi;
