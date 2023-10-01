@@ -55,21 +55,97 @@ const UserForm = () => {
   //open hierarchy headquearter
   const [operHeadquearter, setOpenHeadquearter] = useState(false);
   useEffect(() => {
-    if (watch("hierarchy.Administrativo") || watch("hierarchy.Profesor")) {
+    if (
+      watch(
+        "hierarchy.Administrativo" &&
+          !watch("hierarchy.Supervisor") &&
+          !watch("hierarchy.Gerente")
+      ) ||
+      (watch("hierarchy.Profesor") &&
+        !watch("hierarchy.Supervisor") &&
+        !watch("hierarchy.Gerente"))
+    ) {
       setOpenHeadquearter(true);
     } else {
       setOpenHeadquearter(false);
     }
-  }, [watch("hierarchy.Administrativo"), watch("hierarchy.Profesor")]);
+  }, [
+    watch("hierarchy.Administrativo"),
+    watch("hierarchy.Profesor"),
+    watch("hierarchy.Supervisor"),
+    watch("hierarchy.Gerente"),
+    watch("hierarchy.Coordinador"),
+  ]);
+  useEffect(() => {
+    if (
+      watch("hierarchy.Gerente") ||
+      watch("hierarchy.Coordinador") ||
+      watch("hierarchy.Supervisor")
+    ) {
+      setOpenHeadquearter(false);
+    }
+  }, [
+    watch("hierarchy.Gerente"),
+    watch("hierarchy.Coordinador"),
+    watch("hierarchy.Supervisor"),
+  ]);
 
   //submit
   const onSubmit = async (data) => {
     if (params.id === "newUser") {
-      console.log(data);
+      const { username, fullname, email, password, birthday } = data;
+      //select Hierarchy
+      let selectedHierarchy = hierarchyUser.filter((hierarchy) => {
+        return data.hierarchy[hierarchy.name] === true;
+      });
+      //Hierarchy > 1
+      if (selectedHierarchy.length > 1) {
+        const selectedHierarchies = Object.keys(data.hierarchy).filter(
+          (key) => data.hierarchy[key]
+        );
+        if (
+          selectedHierarchies.includes("Gerente") ||
+          selectedHierarchies.includes("Coordinador") ||
+          selectedHierarchies.includes("Supervisor")
+        ) {
+          selectedHierarchy = "mixto_superior";
+        } else {
+          selectedHierarchy = "mixto";
+        }
+      } else {
+        selectedHierarchy = selectedHierarchy[0].name.toLowerCase();
+      }
+      //Select Headquearter
+      let selectedHeadquarters;
+      if (
+        selectedHierarchy === "coordinador" ||
+        selectedHierarchy === "supervisor" ||
+        selectedHierarchy === "gerente" ||
+        selectedHierarchy === "mixto_superior"
+      ) {
+        selectedHeadquarters = dataHeadquearters;
+      } else {
+        selectedHeadquarters = dataHeadquearters.filter((headquearter) => {
+          return data.headquearters[headquearter.name] === true;
+        });
+      }
+
+      const newUser = {
+        username,
+        fullname,
+        email,
+        password,
+        birthday,
+        headquearters: selectedHeadquarters,
+        hierarchy: selectedHierarchy,
+      };
+      console.log(newUser);
+      //console.log(data);
     } else {
     }
   };
 
+  //Funtion for checkbox
   const renderCheckBox = (data, loading, option) => {
     if (!loading) {
       return data.map((data) => {
