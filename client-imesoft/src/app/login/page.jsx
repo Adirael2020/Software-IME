@@ -16,8 +16,8 @@ const login = () => {
   const [visual, setVisual] = useState(true);
 
   return (
-    <div className="flex items-center  justify-center h-screen bg-gradient-to-tr from-blue-900 to bg-slate-900">
-      <div>
+    <div className="flex items-center justify-center h-screen bg-[url('/fondo.jpg')]">
+      <div className="w-auto h-auto" >
         <Images/>
       </div>
            <div className=" bg-slate-800/30 overflow-auto	md:shrink-0 border-b-2 border-slate-700  text-white w-3/5 h-3/5 md:w-2/5 md:h-2/5 ">
@@ -41,7 +41,7 @@ const login = () => {
           <div className="flex justify-center items-center">
            
            <label htmlFor="login" className="mx-center text-2xl">
-              LOGIN
+              INICIO DE SESION
             </label>
           </div>
           <div className="">
