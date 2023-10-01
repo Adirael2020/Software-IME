@@ -22,7 +22,7 @@ const SpecialtyCard = ({ specialty }) => {
     <div>
       <div>{specialty.name}</div>
       <Button text={"Editar"} onClick={() => {setOpenEdit(true)}} className="bg-gray-600 text-white ml-4 p-2" />
-      <Button text={"ELiminar"} onClick={() => {deleteSpecialty(specialty._id);}} className="bg-red-700 text-white ml-4 p-2" />
+      <Button text={"Eliminar"} onClick={() => {deleteSpecialty(specialty._id);}} className="bg-red-700 text-white ml-4 p-2" />
       {openEdit && <ModalSpectForm option={specialty._id} closeModal={closeModal} />}
     </div>
   )

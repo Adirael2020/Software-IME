@@ -14,10 +14,20 @@ const UserForm = () => {
   const navigate = useRouter();
   const params = useParams();
 
+  //Redux
   const { data: dataSpecialties, isLoading: loadingSpecialties } =
     useGetSpecialtiesQuery();
   const { data: dataHeadquearters, isLoading: loadingHeadquearters } =
     useGetHeadqueartersQuery();
+
+  //Hierarchy
+  const hierarchyUser = [
+    { _id: "1", name: "Gerente" },
+    { _id: "2", name: "Supervisor" },
+    { _id: "3", name: "Administrativo" },
+    { _id: "4", name: "Coordinador" },
+    { _id: "5", name: "Profesor" },
+  ];
 
   //React Hook Form
   const {
@@ -26,10 +36,33 @@ const UserForm = () => {
     formState: { errors: formErrors },
     control,
     reset,
+    watch,
   } = useForm();
+
+  //useState
   //Messange
   const [message, setMessage] = useState();
+  //hierarchy Teacher
+  const [openTeacher, setOpenTeacher] = useState(false);
+  //wath for hierarchy
+  useEffect(() => {
+    if (watch("hierarchy.Profesor") || watch("hierarchy.Coordinador")) {
+      setOpenTeacher(true);
+    } else {
+      setOpenTeacher(false);
+    }
+  }, [watch("hierarchy.Profesor"), watch("hierarchy.Coordinador")]);
+  //open hierarchy headquearter
+  const [operHeadquearter, setOpenHeadquearter] = useState(false);
+  useEffect(() => {
+    if (watch("hierarchy.Administrativo") || watch("hierarchy.Profesor")) {
+      setOpenHeadquearter(true);
+    } else {
+      setOpenHeadquearter(false);
+    }
+  }, [watch("hierarchy.Administrativo"), watch("hierarchy.Profesor")]);
 
+  //submit
   const onSubmit = async (data) => {
     if (params.id === "newUser") {
       console.log(data);
@@ -148,15 +181,22 @@ const UserForm = () => {
         </div>
         <div className="flex">
           <div>
-            {renderCheckBox(dataSpecialties, loadingSpecialties, "specialty")}
+            {renderCheckBox(hierarchyUser, loadingSpecialties, "hierarchy")}
           </div>
-          <div>
-            {renderCheckBox(
-              dataHeadquearters,
-              loadingHeadquearters,
-              "headquearters"
-            )}
-          </div>
+          {operHeadquearter && (
+            <div>
+              {renderCheckBox(
+                dataHeadquearters,
+                loadingHeadquearters,
+                "headquearters"
+              )}
+            </div>
+          )}
+          {openTeacher && (
+            <div>
+              {renderCheckBox(dataSpecialties, loadingSpecialties, "specialty")}
+            </div>
+          )}
         </div>
 
         <div className="flex items-center justify-center ">
