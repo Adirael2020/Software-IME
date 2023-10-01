@@ -3,4 +3,5 @@
     height: 370px;
     background-color: black;
     justify-content: center;
+    overflow: hidden;
 }
