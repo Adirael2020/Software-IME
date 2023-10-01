@@ -17,7 +17,7 @@ const login = () => {
 
   return (
     <div className="flex items-center justify-center h-screen bg-[url('/fondo.jpg')]">
-      <div className="w-auto h-auto" >
+      <div>
         <Images/>
       </div>
            <div className=" bg-slate-800/30 overflow-auto	md:shrink-0 border-b-2 border-slate-700  text-white w-3/5 h-3/5 md:w-2/5 md:h-2/5 ">
@@ -40,7 +40,7 @@ const login = () => {
         <div className="p-5">
           <div className="flex justify-center items-center">
            
-           <label htmlFor="login" className="mx-center text-2xl">
+           <label htmlFor="login" className="mx-center text-2xl font-bold text-slate-900">
               INICIO DE SESION
             </label>
           </div>
