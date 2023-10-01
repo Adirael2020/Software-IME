@@ -33,7 +33,8 @@ const UserForm = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors: formErrors },
+    setError,
+    formState: { errors: formErrors, isSubmitted },
     control,
     reset,
     watch,
@@ -56,11 +57,9 @@ const UserForm = () => {
   const [operHeadquearter, setOpenHeadquearter] = useState(false);
   useEffect(() => {
     if (
-      watch(
-        "hierarchy.Administrativo" &&
-          !watch("hierarchy.Supervisor") &&
-          !watch("hierarchy.Gerente")
-      ) ||
+      (watch("hierarchy.Administrativo") &&
+        !watch("hierarchy.Supervisor") &&
+        !watch("hierarchy.Gerente")) ||
       (watch("hierarchy.Profesor") &&
         !watch("hierarchy.Supervisor") &&
         !watch("hierarchy.Gerente"))
@@ -99,35 +98,42 @@ const UserForm = () => {
         return data.hierarchy[hierarchy.name] === true;
       });
       //Hierarchy > 1
+      let checkbox = false;
       if (selectedHierarchy.length > 1) {
         const selectedHierarchies = Object.keys(data.hierarchy).filter(
           (key) => data.hierarchy[key]
         );
-        if (
-          selectedHierarchies.includes("Gerente") ||
-          selectedHierarchies.includes("Coordinador") ||
-          selectedHierarchies.includes("Supervisor")
-        ) {
+        if (selectedHierarchies.includes("Supervisor")) {
           selectedHierarchy = "mixto_superior";
         } else {
           selectedHierarchy = "mixto";
         }
+      } else if (selectedHierarchy.length === 0) {
+        /*
+        checkbox = true;
+        setError("checkboxGroup", {
+          type: "manual",
+          message: "Selecciona al menos una Jerarquia",
+        });
+        */
       } else {
         selectedHierarchy = selectedHierarchy[0].name.toLowerCase();
       }
       //Select Headquearter
       let selectedHeadquarters;
-      if (
-        selectedHierarchy === "coordinador" ||
-        selectedHierarchy === "supervisor" ||
-        selectedHierarchy === "gerente" ||
-        selectedHierarchy === "mixto_superior"
-      ) {
-        selectedHeadquarters = dataHeadquearters;
-      } else {
-        selectedHeadquarters = dataHeadquearters.filter((headquearter) => {
-          return data.headquearters[headquearter.name] === true;
-        });
+      if (!checkbox) {
+        if (
+          selectedHierarchy === "coordinador" ||
+          selectedHierarchy === "supervisor" ||
+          selectedHierarchy === "gerente" ||
+          selectedHierarchy === "mixto_superior"
+        ) {
+          selectedHeadquarters = dataHeadquearters;
+        } else {
+          selectedHeadquarters = dataHeadquearters.filter((headquearter) => {
+            return data.headquearters[headquearter.name] === true;
+          });
+        }
       }
 
       const newUser = {
@@ -258,6 +264,7 @@ const UserForm = () => {
         <div className="flex">
           <div>
             {renderCheckBox(hierarchyUser, loadingSpecialties, "hierarchy")}
+            <p className="text-red-700">{formErrors.checkboxGroup?.message}</p>
           </div>
           {operHeadquearter && (
             <div>
@@ -274,19 +281,34 @@ const UserForm = () => {
             </div>
           )}
         </div>
-
-        <div className="flex items-center justify-center ">
-          <button
-            className="bg-slate-900 text-white w-1/2 font-medium hover:bg-slate-800 p-2 rounded-full"
-            type="submit"
-          >
-            {params.id !== "newUser" ? (
-              <div>Guardar Cambios</div>
-            ) : (
-              <div>Crear Usuario</div>
-            )}
-          </button>
-        </div>
+        {Object.keys(formErrors).length === 0 ? (
+          <div className="flex items-center justify-center ">
+            <button
+              className="bg-slate-900 text-white w-1/2 font-medium hover:bg-slate-800 p-2 rounded-full"
+              type="submit"
+            >
+              {params.id !== "newUser" ? (
+                <div>Guardar Cambios</div>
+              ) : (
+                <div>Crear Usuario</div>
+              )}
+            </button>
+          </div>
+        ) : (
+          <div className="flex items-center justify-center ">
+            <button
+              className="bg-gray-500 w-1/2 font-medium p-2 rounded-full"
+              type="submit"
+              disabled
+            >
+              {params.id !== "newUser" ? (
+                <div>Guardar Cambios</div>
+              ) : (
+                <div>Crear Usuario</div>
+              )}
+            </button>
+          </div>
+        )}
       </form>
     </div>
   );
