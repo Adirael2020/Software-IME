@@ -1,9 +1,179 @@
-import React from 'react'
+"use client";
+
+import { useEffect, useState } from "react";
+import { useRouter, useParams } from "next/navigation";
+//Formulario
+import { useForm, Controller } from "react-hook-form";
+//Components
+import Button from "../../../../components/Button.jsx";
+//redux
+import { useGetHeadqueartersQuery } from "../../../../redux/services/headquearterApi.js";
+import { useGetSpecialtiesQuery } from "../../../../redux/services/specialtyApi.js";
 
 const UserForm = () => {
-  return (
-    <div>UserForm</div>
-  )
-}
+  const navigate = useRouter();
+  const params = useParams();
 
-export default UserForm
+  const { data: dataSpecialties, isLoading: loadingSpecialties } =
+    useGetSpecialtiesQuery();
+  const { data: dataHeadquearters, isLoading: loadingHeadquearters } =
+    useGetHeadqueartersQuery();
+
+  //React Hook Form
+  const {
+    register,
+    handleSubmit,
+    formState: { errors: formErrors },
+    control,
+    reset,
+  } = useForm();
+  //Messange
+  const [message, setMessage] = useState();
+
+  const onSubmit = async (data) => {
+    if (params.id === "newUser") {
+      console.log(data);
+    } else {
+    }
+  };
+
+  const renderCheckBox = (data, loading, option) => {
+    if (!loading) {
+      return data.map((data) => {
+        return (
+          <div className="flex items-center mb-4" key={data._id}>
+            <Controller
+              name={`${option}.${data.name}`}
+              control={control}
+              defaultValue={false}
+              render={({ field }) => (
+                <div className="flex items-center mb-4">
+                  <input
+                    id={`checkbox-${data._id}`}
+                    type="checkbox"
+                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                    {...field}
+                  />
+                  <label
+                    htmlFor={`checkbox-${data._id}`}
+                    className="ml-2 text-sm font-medium"
+                  >
+                    {data.name}
+                  </label>
+                </div>
+              )}
+            />
+          </div>
+        );
+      });
+    }
+  };
+
+  return (
+    <div>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div>
+          {/* Nombre de Usuario */}
+          <input
+            type="username"
+            name="username"
+            placeholder="Nombre de Usuario"
+            className="w-full focus:outline-none appearance-none placeholder:italic placeholder:text-slate-600 bg-transparent font-medium border-b-2 border-slate-700 px-4 py-2 my-4"
+            {...register("username", {
+              required: {
+                value: true,
+                message: "Se requiere nombre de usuario",
+              },
+              minLength: { value: 2, message: "Minimo 2 Caracteres" },
+              maxLength: { value: 20, message: "Maximo 20 Caracteres" },
+            })}
+          />
+          <p className="text-red-700">{formErrors.username?.message}</p>
+
+          {/* FullName */}
+          <input
+            type="text"
+            name="fullname"
+            placeholder="Nombre Completo de Usuario"
+            className="w-full focus:outline-none appearance-none placeholder:italic placeholder:text-slate-600 bg-transparent font-medium border-b-2 border-slate-700 px-4 py-2 my-4"
+            {...register("fullname", {
+              required: {
+                value: true,
+                message: "Se requiere nombre completo de usuario",
+              },
+            })}
+          />
+          <p className="text-red-700">{formErrors.fullname?.message}</p>
+
+          {/* Contraseña */}
+          <input
+            type="text"
+            name="password"
+            placeholder="Contraseña"
+            className="w-full focus:outline-none appearance-none placeholder:italic placeholder:text-slate-600 bg-transparent font-medium border-b-2 border-slate-700 px-4 py-2 my-4"
+            {...register("password", {
+              required: { value: true, message: "Se requiere contraseña" },
+            })}
+          />
+          <p className="text-red-700">{formErrors.password?.message}</p>
+
+          {/* Email */}
+          <input
+            type="email"
+            name="email"
+            placeholder="Correo Electronico"
+            className="w-full focus:outline-none appearance-none placeholder:italic placeholder:text-slate-600 bg-transparent font-medium border-b-2 border-slate-700 px-4 py-2 my-4"
+            {...register("email", {
+              required: {
+                value: true,
+                message: "Se requiere Correo Electronico",
+              },
+            })}
+          />
+          <p className="text-red-700">{formErrors.email?.message}</p>
+
+          {/* Fecha de Nacimiento */}
+          <input
+            type="date"
+            name="birthday"
+            className="w-full focus:outline-none appearance-none placeholder:italic placeholder:text-slate-600 bg-transparent font-medium border-b-2 border-slate-700 px-4 py-2 my-4"
+            {...register("birthday", {
+              required: {
+                value: true,
+                message: "Se requiere Fecha de Nacimiento",
+              },
+            })}
+          />
+          <p className="text-red-700">{formErrors.birthday?.message}</p>
+        </div>
+        <div className="flex">
+          <div>
+            {renderCheckBox(dataSpecialties, loadingSpecialties, "specialty")}
+          </div>
+          <div>
+            {renderCheckBox(
+              dataHeadquearters,
+              loadingHeadquearters,
+              "headquearters"
+            )}
+          </div>
+        </div>
+
+        <div className="flex items-center justify-center ">
+          <button
+            className="bg-slate-900 text-white w-1/2 font-medium hover:bg-slate-800 p-2 rounded-full"
+            type="submit"
+          >
+            {params.id !== "newUser" ? (
+              <div>Guardar Cambios</div>
+            ) : (
+              <div>Crear Usuario</div>
+            )}
+          </button>
+        </div>
+      </form>
+    </div>
+  );
+};
+
+export default UserForm;

@@ -5,9 +5,12 @@ import cors from "cors";
 
 
 //Routs
+//login
 import authRoutes from "./routes/authUser.routes.js";
+//admin
 import headqueaterRoutes from "./routes/headqueater.routes.js";
 import userRoutes from "./routes/User.routes.js";
+import specialtyRoutes from "./routes/specialty.routes.js"
 
 const app = express();
 
@@ -33,6 +36,7 @@ app.use((req, res, next) => {
 app.use('/api',authRoutes);
 app.use('/api',headqueaterRoutes);
 app.use('/api',userRoutes);
+app.use('/api',specialtyRoutes);
 
 
 

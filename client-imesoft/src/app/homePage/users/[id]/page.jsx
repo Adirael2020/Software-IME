@@ -1,9 +1,16 @@
-import React from 'react'
+"use client"
 
-const UserForm = () => {
+import UserForm from '../components/UserForm.jsx'
+
+const UserFormPage = () => {
   return (
-    <div>UserForm</div>
+    <div>
+      <div>
+        UserForm
+        </div>
+      <UserForm/>
+    </div>
   )
 }
 
-export default UserForm
+export default UserFormPage;

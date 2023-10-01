@@ -3,7 +3,6 @@ import { useRouter } from "next/navigation";
 //Componets
 import Button from "../../../../components/Button.jsx"
 //Redux
-import { useDispatch } from "react-redux";
 import { useDeleteHeadquearterMutation } from "../../../../redux/services/headquearterApi.js";
 
 const HeadCard = ({ headquearter }) => {
