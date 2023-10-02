@@ -29,7 +29,6 @@ const LoginUser = () => {
 
   //Funcion de Login
   const onSubmit = async (data) => {
-    console.log(data);
     try {
       const result = await signIn("credentials", {
         username: data.username,
