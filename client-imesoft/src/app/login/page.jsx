@@ -17,6 +17,8 @@ const login = () => {
 
   return (
     <div className="flex items-center justify-center h-screen bg-[url('/fondo.jpg')]">
+      <div className="bg-[url('/IMEnegro.png')] w-15 h-15 relative bottom-7 left-5 ">
+      </div>
       <div>
         <Images/>
       </div>
