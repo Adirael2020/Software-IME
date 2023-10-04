@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import { useSession } from 'next-auth/react';
 import { useEffect } from "react";
 
-import { useLoadUserMutation } from "../redux/services/userApi";
+import { useLoadUserMutation } from "../redux/services/authApi";
 import { logUser } from "../redux/features/userSlice";
 
 const RefreshUser = ({ children }) => {
