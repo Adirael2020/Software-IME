@@ -1,8 +1,8 @@
 import bcrypt from 'bcryptjs';
-import { user } from "../models/user.model.js";
+import { user, specialty } from "../models/user.model.js";
 import { usersHeadquearters } from '../models/headqueater.model.js';
 
-//Crear usuario
+//create User
 export const createUser = async(req,res) => {
     const {
         username,
@@ -12,7 +12,7 @@ export const createUser = async(req,res) => {
         hierarchy,
         specialty,
         birthday,
-        headqueartersFromUser
+        headquearters:headqueartersFromUser
     } = req.body;
     try {
         const passwordHash = await bcrypt.hash(password, 10); //encriptacion de la clave
@@ -45,7 +45,16 @@ export const createUser = async(req,res) => {
     };
 };
 
-//Obtener usuarios
+//get All Users
+export const getUsers = async(req,res) => {
+    try {
+        const users = await user.find({}, { password: 0 });
+        console.log(users);
+        res.json(users)
+    } catch (error) {
+        return res.status(500).json({ message: error.message });
+    }
+}
 //obtener un usuario
 //editar usuario
 //Activar Usuario

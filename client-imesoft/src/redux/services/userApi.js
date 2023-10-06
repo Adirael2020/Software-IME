@@ -6,12 +6,28 @@ export const userApi = createApi({
         baseUrl: 'http://localhost:3000/api',
         credentials: 'include'
     }),
+    tagTypes: ["Users"],
     endpoints: (builder) => ({
         //GetUsers
+        getUsers: builder.query({
+            query: () => ({
+                url: '/getUsers'
+            }),
+            providesTags: ["Users"],
+        }),
         //GetUser
         //CreateUser
+        createUser: builder.mutation({
+            query: (newUser) => ({
+                url: '/createUser',
+                method: 'POST',
+                body: newUser
+            })
+        })
         //EditUser
         //ActiveUser
         //DesactivateUser
     })
 });
+
+export const {useCreateUserMutation, useGetUsersQuery} = userApi;

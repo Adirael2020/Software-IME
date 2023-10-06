@@ -9,6 +9,7 @@ import Button from "../../../../components/Button.jsx";
 //redux
 import { useGetHeadqueartersQuery } from "../../../../redux/services/headquearterApi.js";
 import { useGetSpecialtiesQuery } from "../../../../redux/services/specialtyApi.js";
+import { useCreateUserMutation } from "../../../../redux/services/userApi.js";
 
 const UserForm = () => {
   const navigate = useRouter();
@@ -19,6 +20,7 @@ const UserForm = () => {
     useGetSpecialtiesQuery();
   const { data: dataHeadquearters, isLoading: loadingHeadquearters } =
     useGetHeadqueartersQuery();
+  const [createUser, isLoadingCreate] = useCreateUserMutation();
 
   //Hierarchy
   const hierarchyUser = [
@@ -146,7 +148,7 @@ const UserForm = () => {
         hierarchy: selectedHierarchy,
       };
       console.log(newUser);
-      //console.log(data);
+      const response = await createUser(newUser);
     } else {
     }
   };

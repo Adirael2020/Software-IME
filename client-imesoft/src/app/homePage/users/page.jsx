@@ -2,10 +2,14 @@
 import { useRouter } from "next/navigation";
 //components
 import Button from "../../../components/Button";
+//redux
+import { useGetUsersQuery } from "../../../redux/services/userApi";
 
 const UserPage = () => {
 
   const navigate = useRouter();
+  const {data, isLoading} = useGetUsersQuery();
+  console.log(data);
 
   return (
     <div>
