@@ -49,7 +49,6 @@ export const createUser = async(req,res) => {
 export const getUsers = async(req,res) => {
     try {
         const users = await user.find({}, { password: 0 });
-        console.log(users);
         res.json(users)
     } catch (error) {
         return res.status(500).json({ message: error.message });
