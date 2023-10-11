@@ -16,18 +16,54 @@ export const userApi = createApi({
             providesTags: ["Users"],
         }),
         //GetUser
+        getUser: builder.mutation({
+            query: (id) => ({
+                url: `/getUser/${id}`,
+                method: 'POST',
+            }),
+        }),
         //CreateUser
         createUser: builder.mutation({
             query: (newUser) => ({
                 url: '/createUser',
                 method: 'POST',
                 body: newUser
-            })
-        })
+            }),
+            invalidatesTags: ["Users"],
+        }),
         //EditUser
-        //ActiveUser
-        //DesactivateUser
+        editUser: builder.mutation({
+            query: (editUser) => ({
+                url: `/editUser/${editUser.id}`,
+                method: 'PUT',
+                body: editUser,
+            }),
+            invalidatesTags: ["Users"],
+        }),
+        //ResetPassword
+        resetPassword: builder.mutation({
+            query: (id) => ({
+                url: `/resetPassword/${id}`,
+                method: 'PUT'
+            })
+        }),
+        //ActivateUser
+        activateUser: builder.mutation({
+            query: (id) => ({
+                url: `/activateUser/${id}`,
+                method: 'PUT'
+            }),
+            invalidatesTags: ["Users"],
+        }),
+        //deactivateUser
+        deactivateUser: builder.mutation({
+            query: (id) => ({
+                url: `/deactivateUser/${id}`,
+                method: 'PUT'
+            }),
+            invalidatesTags: ["Users"],
+        })
     })
 });
 
-export const {useCreateUserMutation, useGetUsersQuery} = userApi;
+export const { useCreateUserMutation, useGetUsersQuery, useGetUserMutation, useEditUserMutation, useActivateUserMutation, useDeactivateUserMutation, useResetPasswordMutation } = userApi;

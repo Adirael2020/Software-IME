@@ -11,7 +11,7 @@ const UserPage = () => {
 
   const navigate = useRouter();
   const { data, isLoading } = useGetUsersQuery();
-  console.log(data);
+  //console.log(data);
 
   return (
     <div>
