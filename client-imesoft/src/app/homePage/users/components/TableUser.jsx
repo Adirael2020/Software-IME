@@ -2,9 +2,17 @@
 import Button from "../../../../components/Button"
 import { useRouter } from "next/navigation";
 
+//redux
+import { useActivateUserMutation, useDeactivateUserMutation } from "../../../../redux/services/userApi";
+
 const TableUser = ({ data }) => {
 
     const navigate = useRouter();
+
+    const [activateUser] = useActivateUserMutation();
+    const [deactivateUser] = useDeactivateUserMutation();
+
+    console.log(data);
 
     return (
         <div className="p-4">
@@ -32,7 +40,7 @@ const TableUser = ({ data }) => {
                             <td>
                                <Button text={"Editar"} className="bg-slate-500 text-white p-2 ml-2" onClick={() => { navigate.push(`/homePage/users/${user._id}`); }}/>
                                <Button text={"Contraseña"} className="bg-slate-500 text-white p-2 ml-2"/>
-                               <Button text={"Baja"} className="bg-red-500 text-white p-2 ml-2"/>
+                               <Button text={"Baja"} className="bg-red-500 text-white p-2 ml-2" onClick={async ()  => { await deactivateUser(user._id)}}/>
                             </td>
                         </tr>
                     ))}

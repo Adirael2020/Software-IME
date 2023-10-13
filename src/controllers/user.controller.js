@@ -69,7 +69,52 @@ export const getUsers = async (req, res) => {
         return res.status(500).json({ message: error.message });
     }
 }
-//obtener un usuario
-//editar usuario
-//Activar Usuario
-//Desactivar Usuario 
+//get user
+//reset pasword
+export const resetPassword = async (req,res) =>{
+    try {
+        const userId = req.params.userId;
+        const newPassword = "ime123";
+        const userFound = await user.findById(userId);
+        if (!userFound) {
+            return res.status(404).json({ message: 'User not Found' });
+        };
+        const passwordHash = await bcrypt.hash(newPassword, 10);
+        userFound.password = passwordHash;
+        await userFound.save();
+        res.status(200).json({ message: 'Password Reset' });
+
+    } catch (error) {
+        return res.status(500).json({ message: error.message });
+    }
+
+
+};
+//deactivate user
+export const deactivateUser = async (req,res) =>{
+    try {
+        const userId = req.params.userId;
+        const userFound = await user.findById(userId);
+        if (!userFound) {
+            return res.status(404).json({ message: 'User not Found' });
+        };
+        userFound.isActive = false;
+        await userFound.save();
+    } catch (error) {
+        return res.status(500).json({ message: error.message });
+    }
+};
+//active user
+export const activateUser = async (req,res) => {
+    try {
+        const userId = req.params.userId;
+        const userFound = await user.findById(userId);
+        if (!userFound) {
+            return res.status(404).json({ message: 'User not Found' });
+        };
+        userFound.isActive = true;
+        await userFound.save();
+    } catch (error) {
+        return res.status(500).json({ message: error.message });
+    }
+};

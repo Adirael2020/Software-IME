@@ -1,6 +1,6 @@
 import { Router } from "express";
 
-import { createUser, getUsers } from "../controllers/user.controller.js";
+import { createUser, getUsers, resetPassword, activateUser,deactivateUser } from "../controllers/user.controller.js";
 import { authRequired } from "../middlewares/validateUserToken.js";
 
 //Zod
@@ -12,6 +12,18 @@ const router = Router();
 router.get("/getUsers",authRequired,getUsers);
 //create
 router.post("/createUser",authRequired,createUser);
+//get user
+router.post("/getUser/:id",authRequired);
+//edit user
+router.put("/editUser/:id",authRequired);
+//active user
+router.put("/activateUser/:id",authRequired,activateUser);
+//deactivate user
+router.put("/deactivateUser/:id",authRequired,deactivateUser);
+//reset password user
+router.put("/resetPassword/:id",authRequired,resetPassword);
+//edit password user
+router.put("/editPasswordUser",authRequired);
 
 
 export default router
