@@ -73,7 +73,7 @@ export const getUsers = async (req, res) => {
 //reset pasword
 export const resetPassword = async (req,res) =>{
     try {
-        const userId = req.params.userId;
+        const userId = req.params.id;
         const newPassword = "ime123";
         const userFound = await user.findById(userId);
         if (!userFound) {
@@ -93,8 +93,9 @@ export const resetPassword = async (req,res) =>{
 //deactivate user
 export const deactivateUser = async (req,res) =>{
     try {
-        const userId = req.params.userId;
+        const userId = req.params.id;
         const userFound = await user.findById(userId);
+        console.log(userFound);
         if (!userFound) {
             return res.status(404).json({ message: 'User not Found' });
         };
@@ -107,7 +108,7 @@ export const deactivateUser = async (req,res) =>{
 //active user
 export const activateUser = async (req,res) => {
     try {
-        const userId = req.params.userId;
+        const userId = req.params.id;
         const userFound = await user.findById(userId);
         if (!userFound) {
             return res.status(404).json({ message: 'User not Found' });

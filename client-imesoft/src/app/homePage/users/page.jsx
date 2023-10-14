@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { useRouter } from "next/navigation";
 //components
 import Button from "../../../components/Button";
@@ -8,28 +8,51 @@ import Loading from "../../../components/Loading";
 import { useGetUsersQuery } from "../../../redux/services/userApi";
 
 const UserPage = () => {
-
   const navigate = useRouter();
   const { data, isLoading } = useGetUsersQuery();
-  //console.log(data);
+  
+  const result = data.reduce(
+    (acc, user) => {
+      if (user.isActive) {
+        acc.activeUsers.push(user);
+      } else {
+        acc.inactiveUsers.push(user);
+      }
+      return acc;
+    },
+    { activeUsers: [], inactiveUsers: [] }
+  );
+  const activeUsers = result.activeUsers;
+  const inactiveUsers = result.inactiveUsers;
+  console.log(result);
 
   return (
     <div>
-      {isLoading
-        ? <Loading />
-        :
+      {isLoading ? (
+        <Loading />
+      ) : (
         <div>
           <div>
-            Lista de Usuarios
+            <Button
+              text={"Nuevo Usuario"}
+              className="bg-green-600 p-2"
+              onClick={() => {
+                navigate.push("/homePage/users/newUser");
+              }}
+            />
           </div>
+          <div>Lista de Usuarios Activos</div>
           <div>
-            <TableUser data={data} />
+            <TableUser data={activeUsers} />
           </div>
-          <Button text={"Nuevo Usuario"} className="bg-green-600 p-2" onClick={() => { navigate.push('/homePage/users/newUser'); }} />
+          <div>Lista de Usuarios Inactivos</div>
+          <div>
+            <TableUser data={inactiveUsers} />
+          </div>
         </div>
-      }
+      )}
     </div>
-  )
-}
+  );
+};
 
 export default UserPage;

@@ -12,7 +12,6 @@ const TableUser = ({ data }) => {
     const [activateUser] = useActivateUserMutation();
     const [deactivateUser] = useDeactivateUserMutation();
 
-    console.log(data);
 
     return (
         <div className="p-4">
