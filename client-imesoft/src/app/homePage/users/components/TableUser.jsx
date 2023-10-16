@@ -3,7 +3,7 @@ import Button from "../../../../components/Button"
 import { useRouter } from "next/navigation";
 
 //redux
-import { useActivateUserMutation, useDeactivateUserMutation } from "../../../../redux/services/userApi";
+import { useActivateUserMutation, useDeactivateUserMutation, useResetPasswordMutation } from "../../../../redux/services/userApi.js";
 
 const TableUser = ({ data }) => {
 
@@ -11,6 +11,7 @@ const TableUser = ({ data }) => {
 
     const [activateUser] = useActivateUserMutation();
     const [deactivateUser] = useDeactivateUserMutation();
+    const [resetPasswordUser] = useResetPasswordMutation();
 
 
     return (
@@ -36,11 +37,18 @@ const TableUser = ({ data }) => {
                                     </div>
                                 )
                             })}</td>
+                            {user.isActive === true 
+                            ?
                             <td>
                                <Button text={"Editar"} className="bg-slate-500 text-white p-2 ml-2" onClick={() => { navigate.push(`/homePage/users/${user._id}`); }}/>
-                               <Button text={"Contraseña"} className="bg-slate-500 text-white p-2 ml-2"/>
-                               <Button text={"Baja"} className="bg-red-500 text-white p-2 ml-2" onClick={async ()  => { await deactivateUser(user._id)}}/>
+                               <Button text={"Contraseña"} className="bg-slate-500 text-white p-2 ml-2" onClick={() => {resetPasswordUser(user._id)}}/>
+                               <Button text={"Baja"} className="bg-red-500 text-white p-2 ml-2" onClick={() => {deactivateUser(user._id)}}/>
                             </td>
+                            :
+                            <td>
+                                <Button text={"Alta"} className="bg-green-600 text-white p-2" onClick={() =>{activateUser(user._id)}}/>
+                            </td>
+                            }
                         </tr>
                     ))}
                 </tbody>

@@ -9,7 +9,11 @@ import Button from "../../../../components/Button.jsx";
 //redux
 import { useGetHeadqueartersQuery } from "../../../../redux/services/headquearterApi.js";
 import { useGetSpecialtiesQuery } from "../../../../redux/services/specialtyApi.js";
-import { useCreateUserMutation } from "../../../../redux/services/userApi.js";
+import {
+  useCreateUserMutation,
+  useGetUserMutation,
+  useEditUserMutation,
+} from "../../../../redux/services/userApi.js";
 
 const UserForm = () => {
   const navigate = useRouter();
@@ -21,6 +25,8 @@ const UserForm = () => {
   const { data: dataHeadquearters, isLoading: loadingHeadquearters } =
     useGetHeadqueartersQuery();
   const [createUser, isLoadingCreate] = useCreateUserMutation();
+  const [getUser, isLoadingGet] = useGetUserMutation();
+  const [editUser] = useEditUserMutation();
 
   //Hierarchy
   const hierarchyUser = [
@@ -91,6 +97,58 @@ const UserForm = () => {
     watch("hierarchy.Supervisor"),
   ]);
 
+  //Pre Load
+  useEffect(() => {
+    function formatDateForInput(dateString) {
+      const date = new Date(dateString);
+      return date.toISOString().slice(0, 10); // Esto formatea la fecha como "aaaa-mm-dd"
+    }
+    async function getData() {
+      const response = await getUser(params.id);
+      const { username, fullname, email, birthday, hierarchy } = response.data;
+      const formattedBirthday = formatDateForInput(birthday);
+      const hierarchySelect = {
+        Administrativo : false,
+        Coordinador: false,
+        Gerente: false,
+        Profesor: false,
+        Supervisor: false
+      };
+      switch (hierarchy) {
+        case "administra":
+          hierarchySelect.Administrativo = true;
+          break;
+        case "coordinador":
+          hierarchyUser.Coordinador = true;
+          break;
+        case "gerente":
+          hierarchySelect.Gerente = true;
+          break;
+        case "profesor":
+          hierarchySelect.Profesor = true;
+          break;
+        case "supervisor":
+          hierarchySelect.Supervisor = true;
+        default:
+          hierarchySelect.Profesor = true;
+          hierarchySelect.Administrativo = true;
+          break;
+      };
+
+      reset({
+        username,
+        fullname,
+        email,
+        birthday: formattedBirthday,
+        hierarchy: hierarchySelect
+      });
+      console.log(response);
+    }
+    if (params.id !== "newUser") {
+      getData();
+    }
+  }, []);
+
   //submit
   const onSubmit = async (data) => {
     if (params.id === "newUser") {
@@ -150,6 +208,7 @@ const UserForm = () => {
       console.log(newUser);
       const response = await createUser(newUser);
     } else {
+      console.log(data);
     }
   };
 
@@ -223,17 +282,20 @@ const UserForm = () => {
           <p className="text-red-700">{formErrors.fullname?.message}</p>
 
           {/* Contraseña */}
-          <input
-            type="text"
-            name="password"
-            placeholder="Contraseña"
-            className="w-full focus:outline-none appearance-none placeholder:italic placeholder:text-slate-600 bg-transparent font-medium border-b-2 border-slate-700 px-4 py-2 my-4"
-            {...register("password", {
-              required: { value: true, message: "Se requiere contraseña" },
-            })}
-          />
-          <p className="text-red-700">{formErrors.password?.message}</p>
-
+          {params.id === "newUser" && (
+            <div>
+              <input
+                type="text"
+                name="password"
+                placeholder="Contraseña"
+                className="w-full focus:outline-none appearance-none placeholder:italic placeholder:text-slate-600 bg-transparent font-medium border-b-2 border-slate-700 px-4 py-2 my-4"
+                {...register("password", {
+                  required: { value: true, message: "Se requiere contraseña" },
+                })}
+              />
+              <p className="text-red-700">{formErrors.password?.message}</p>
+            </div>
+          )}
           {/* Email */}
           <input
             type="email"

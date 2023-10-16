@@ -56,7 +56,7 @@ export const userApi = createApi({
             invalidatesTags: ["Users"],
         }),
         //deactivateUser
-        deactivateUser: builder.mutation({
+        deactivateUser: builder.mutation({            
             query: (id) => ({
                 url: `/deactivateUser/${id}`,
                 method: 'PUT'
