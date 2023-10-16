@@ -24,7 +24,7 @@ const FormHead = () => {
         reset
     } = useForm();
 
-    //PreCarga
+    //Pre Load
     useEffect(() => {
         async function getData() {
             const response = await getHeadquearter(params.id);

@@ -1,45 +1,69 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
-export const authApi = createApi({
-    reducerPath: 'authAPI',
+export const userApi = createApi({
+    reducerPath: 'userAPI',
     baseQuery: fetchBaseQuery({
         baseUrl: 'http://localhost:3000/api',
         credentials: 'include'
     }),
+    tagTypes: ["Users"],
     endpoints: (builder) => ({
-        //Login
-        loginUser: builder.mutation({
-            query: (credentials) => ({
-                url: '/loginUser',
-                method: 'POST',
-                body: credentials, 
-            }),
-        }),
-        //Exit
-        logoutUser: builder.mutation({
+        //GetUsers
+        getUsers: builder.query({
             query: () => ({
-                url: '/logoutUser',
-                method: 'POST', 
+                url: '/getUsers'
             }),
+            providesTags: ["Users"],
         }),
-        //Refresh
-        loadUser: builder.mutation({
-            query: (credentials) => ({
-                url: '/loadUserToken',
+        //GetUser
+        getUser: builder.mutation({
+            query: (id) => ({
+                url: `/getUser/${id}`,
                 method: 'POST',
-                body: credentials, 
-            }),
-        })
-        ,
-        //Edit
-        editProfileUser: builder.mutation({
-            query: (updatedData) => ({
-                url: '/', //Aun no creada
-                method: 'PUT', 
-                body: updatedData, 
             }),
         }),
+        //CreateUser
+        createUser: builder.mutation({
+            query: (newUser) => ({
+                url: '/createUser',
+                method: 'POST',
+                body: newUser
+            }),
+            invalidatesTags: ["Users"],
+        }),
+        //EditUser
+        editUser: builder.mutation({
+            query: (editUser) => ({
+                url: `/editUser/${editUser.id}`,
+                method: 'PUT',
+                body: editUser,
+            }),
+            invalidatesTags: ["Users"],
+        }),
+        //ResetPassword
+        resetPassword: builder.mutation({
+            query: (id) => ({
+                url: `/resetPassword/${id}`,
+                method: 'PUT'
+            })
+        }),
+        //ActivateUser
+        activateUser: builder.mutation({
+            query: (id) => ({
+                url: `/activateUser/${id}`,
+                method: 'PUT'
+            }),
+            invalidatesTags: ["Users"],
+        }),
+        //deactivateUser
+        deactivateUser: builder.mutation({            
+            query: (id) => ({
+                url: `/deactivateUser/${id}`,
+                method: 'PUT'
+            }),
+            invalidatesTags: ["Users"],
+        })
     })
 });
 
-export const { useLoginUserMutation, useLoadUserMutation, useLogoutUserMutation } = authApi;
+export const { useCreateUserMutation, useGetUsersQuery, useGetUserMutation, useEditUserMutation, useActivateUserMutation, useDeactivateUserMutation, useResetPasswordMutation } = userApi;

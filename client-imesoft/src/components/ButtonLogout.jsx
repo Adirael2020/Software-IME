@@ -3,7 +3,7 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
 import { outUser } from '../redux/features/userSlice'
-import { useLogoutUserMutation } from '../redux/services/userApi.js';
+import { useLogoutUserMutation } from '../redux/services/authApi.js';
 import { signOut } from "next-auth/react";
 
 const ButtonLogout = () => {
