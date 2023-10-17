@@ -1,7 +1,7 @@
 "use client";
 
 //Redux
-import Button from "../../components/Button.jsx"
+import Button from "../../components/Button.jsx";
 
 //Components
 import LoginUser from "./components/LoginUser.jsx";
@@ -13,19 +13,18 @@ import Images from "./components/Images.jsx";
 //Logo
 import Logo from "./components/Logo.jsx";
 
-
 const login = () => {
   const [visual, setVisual] = useState(true);
 
   return (
     <div className="flex items-center justify-center h-screen bg-[url('/fondo.jpg')]">
-     <div>
-      <Logo />
+      <div>
+        <Logo />
       </div>
       <div>
-        <Images/>
+        <Images />
       </div>
-           <div className=" bg-slate-800/30 overflow-auto	md:shrink-0 border-b-2 border-slate-700  text-white w-3/5 h-3/5 md:w-2/5 md:h-2/5 ">
+      <div className=" bg-slate-800/30 overflow-auto	md:shrink-0 border-b-2 border-slate-700  text-white w-3/5 h-3/5 md:w-2/5 md:h-2/5 ">
         <div className=" flex justify-center items-center">
           <Button
             onClick={() => {
@@ -44,8 +43,10 @@ const login = () => {
         </div>
         <div className="p-5">
           <div className="flex justify-center items-center">
-           
-           <label htmlFor="login" className="mx-center text-2xl font-bold text-slate-900">
+            <label
+              htmlFor="login"
+              className="mx-center text-2xl font-bold text-slate-900"
+            >
               INICIO DE SESION
             </label>
           </div>
@@ -63,7 +64,6 @@ const login = () => {
         </div>
       </div>
     </div>
-    
   );
 };
 

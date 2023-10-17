@@ -25,7 +25,6 @@ function Images() {
             <Image src="/feed_3 (1).jpg" alt="Feed" width={370} height={370} />
           </div>
         </li>
-    
     </div>
   );
 }
