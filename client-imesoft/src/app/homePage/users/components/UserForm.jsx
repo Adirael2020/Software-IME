@@ -30,11 +30,11 @@ const UserForm = () => {
 
   //Hierarchy
   const hierarchyUser = [
-    { _id: "1", name: "Gerente" },
-    { _id: "2", name: "Supervisor" },
-    { _id: "3", name: "Administrativo" },
-    { _id: "4", name: "Coordinador" },
-    { _id: "5", name: "Profesor" },
+    { _id: "1", name: "Gerente"},
+    { _id: "2", name: "Supervisor"},
+    { _id: "3", name: "Administrativo"},
+    { _id: "4", name: "Coordinador"},
+    { _id: "5", name: "Profesor"},
   ];
 
   //React Hook Form
@@ -46,6 +46,7 @@ const UserForm = () => {
     control,
     reset,
     watch,
+    
   } = useForm();
 
   //useState
@@ -119,7 +120,7 @@ const UserForm = () => {
           hierarchySelect.Administrativo = true;
           break;
         case "coordinador":
-          hierarchyUser.Coordinador = true;
+          hierarchySelect.Coordinador = true;
           break;
         case "gerente":
           hierarchySelect.Gerente = true;
@@ -134,13 +135,21 @@ const UserForm = () => {
           hierarchySelect.Administrativo = true;
           break;
       };
+      const headquearterSelect = {}
+      const headqueartersUser = response.data.headquearters.map(headquearter => headquearter.name);
+      if(!loadingHeadquearters){
+        dataHeadquearters.forEach((headquearter) => {
+          headquearterSelect[headquearter.name] = headqueartersUser.includes(headquearter.name);
+        });
+      };
 
       reset({
         username,
         fullname,
         email,
         birthday: formattedBirthday,
-        hierarchy: hierarchySelect
+        hierarchy: hierarchySelect,
+        headquearters: headquearterSelect
       });
       console.log(response);
     }
@@ -221,15 +230,26 @@ const UserForm = () => {
             <Controller
               name={`${option}.${data.name}`}
               control={control}
-              defaultValue={false}
+              defaultValue= {false}
               render={({ field }) => (
                 <div className="flex items-center mb-4">
+                  {/*console.log(field)*/}
+                  {field.value ?
+                  <input
+                  id={`checkbox-${data._id}`}
+                  type="checkbox"
+                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                  {...field}
+                  checked
+                  />
+                  :
                   <input
                     id={`checkbox-${data._id}`}
                     type="checkbox"
                     className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                     {...field}
-                  />
+                  />}
+
                   <label
                     htmlFor={`checkbox-${data._id}`}
                     className="ml-2 text-sm font-medium"

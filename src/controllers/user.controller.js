@@ -45,6 +45,29 @@ export const createUser = async (req, res) => {
   }
 };
 
+//edit User
+export const editUser = async (req,res) =>{
+  const {
+    username,
+    fullname,
+    email,
+    hierarchy,
+    specialty,
+    birthday,
+    headquearters: headqueartersFromUser,
+  } = req.body;
+  try {
+    const userUpdate = await user.findOneAndUpdate(
+      { _id: req.params.id },
+      { username, fullname, email, hierarchy, specialty, birthday},
+      { new: true }
+    )
+
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+}
+
 //get All Users
 export const getUsers = async (req, res) => {
   try {
