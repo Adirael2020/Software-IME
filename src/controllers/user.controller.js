@@ -13,6 +13,7 @@ export const createUser = async (req, res) => {
     specialty,
     birthday,
     headquearters: headqueartersFromUser,
+    isTeacher
   } = req.body;
   try {
     const passwordHash = await bcrypt.hash(password, 10); //encriptacion de la clave
@@ -27,6 +28,7 @@ export const createUser = async (req, res) => {
       isActive,
       specialty,
       birthday,
+      isTeacher
     });
     //relacion muchos a muchos de sedes con usuarios
     headqueartersFromUser.forEach((headquearterID) => {
@@ -54,19 +56,68 @@ export const editUser = async (req,res) =>{
     hierarchy,
     specialty,
     birthday,
+    isTeacher,
     headquearters: headqueartersFromUser,
   } = req.body;
+  const _id = req.params.id; 
   try {
     const userUpdate = await user.findOneAndUpdate(
-      { _id: req.params.id },
-      { username, fullname, email, hierarchy, specialty, birthday},
+      { _id },
+      { username, fullname, email, hierarchy, specialty, birthday, isTeacher},
       { new: true }
-    )
+    );
 
+  /*  usersHeadquearters.find({ user: _id }, (err, relationships) => {
+      if (err) {
+          console.error('Error al buscar las relaciones:', err);
+          // Manejo de errores
+      } else {
+          // Itera sobre las relaciones existentes.
+          relationships.forEach((relationship) => {
+              // Si la sede actual no está en las nuevas sedes, elimina la relación.
+              if (!newHeadquarterIds.includes(relationship.headquarter.toString())) {
+                  relationship.remove((err) => {
+                      if (err) {
+                          console.error('Error al eliminar la relación:', err);
+                          // Manejo de errores
+                      } else {
+                          console.log('Relación eliminada con éxito.');
+                      }
+                  });
+              }
+          });
+  
+          // Agrega las nuevas sedes como relaciones.
+          newHeadquarterIds.forEach((newHeadquarterId) => {
+              if (!relationships.some((rel) => rel.headquarter.toString() === newHeadquarterId)) {
+                  const newRelationship = new usersHeadquearters({
+                      user: _id,
+                      headquarter: newHeadquarterId,
+                  });
+  
+                  newRelationship.save((err) => {
+                      if (err) {
+                          console.error('Error al crear la relación:', err);
+                          // Manejo de errores
+                      } else {
+                          console.log('Relación creada con éxito.');
+                      }
+                  });
+              }
+          });
+  
+          // Continúa con tu lógica de aplicación.
+      }
+  });
+  */
+  res.json({
+    message: "Usuario Guardado Correctamente",
+  });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
-}
+
+};
 
 //get All Users
 export const getUsers = async (req, res) => {

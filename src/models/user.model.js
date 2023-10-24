@@ -33,6 +33,7 @@ const userSchema = new mongoose.Schema({
         type: String,
     },
     isActive: Boolean,
+    isTeacher: Boolean,
     specialty: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Specialty' // Esto hace referencia al modelo de especialidades

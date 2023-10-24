@@ -30,11 +30,11 @@ const UserForm = () => {
 
   //Hierarchy
   const hierarchyUser = [
-    { _id: "1", name: "Gerente"},
-    { _id: "2", name: "Supervisor"},
-    { _id: "3", name: "Administrativo"},
-    { _id: "4", name: "Coordinador"},
-    { _id: "5", name: "Profesor"},
+    { _id: "1", name: "Gerente" },
+    { _id: "2", name: "Supervisor" },
+    { _id: "3", name: "Administrativo" },
+    { _id: "4", name: "Coordinador" },
+    { _id: "5", name: "Profesor" },
   ];
 
   //React Hook Form
@@ -46,7 +46,6 @@ const UserForm = () => {
     control,
     reset,
     watch,
-    
   } = useForm();
 
   //useState
@@ -54,14 +53,31 @@ const UserForm = () => {
   const [message, setMessage] = useState();
   //hierarchy Teacher
   const [openTeacher, setOpenTeacher] = useState(false);
+  //option is teacher
+  const [openTeacherOther, setOpenTeacherOther] = useState(false);
+  useEffect(() => {
+    if (watch("hierarchy.Administrativo")) {
+      setOpenTeacherOther(true);
+    } else {
+      setOpenTeacherOther(false);
+    }
+  }, [watch("hierarchy.Administrativo")]);
   //wath for hierarchy
   useEffect(() => {
-    if (watch("hierarchy.Profesor") || watch("hierarchy.Coordinador")) {
+    if (
+      watch("hierarchy.Profesor") ||
+      watch("hierarchy.Coordinador") ||
+      watch("isTeacher")
+    ) {
       setOpenTeacher(true);
     } else {
       setOpenTeacher(false);
     }
-  }, [watch("hierarchy.Profesor"), watch("hierarchy.Coordinador")]);
+  }, [
+    watch("hierarchy.Profesor"),
+    watch("hierarchy.Coordinador"),
+    watch("isTeacher"),
+  ]);
   //open hierarchy headquearter
   const [operHeadquearter, setOpenHeadquearter] = useState(false);
   useEffect(() => {
@@ -106,17 +122,17 @@ const UserForm = () => {
     }
     async function getData() {
       const response = await getUser(params.id);
-      const { username, fullname, email, birthday, hierarchy } = response.data;
+      const { username, fullname, email, birthday, hierarchy, isTeacher, specialty } = response.data;
       const formattedBirthday = formatDateForInput(birthday);
       const hierarchySelect = {
-        Administrativo : false,
+        Administrativo: false,
         Coordinador: false,
         Gerente: false,
         Profesor: false,
-        Supervisor: false
+        Supervisor: false,
       };
       switch (hierarchy) {
-        case "administra":
+        case "administrativo":
           hierarchySelect.Administrativo = true;
           break;
         case "coordinador":
@@ -134,12 +150,23 @@ const UserForm = () => {
           hierarchySelect.Profesor = true;
           hierarchySelect.Administrativo = true;
           break;
-      };
-      const headquearterSelect = {}
-      const headqueartersUser = response.data.headquearters.map(headquearter => headquearter.name);
-      if(!loadingHeadquearters){
+      }
+      const headquearterSelect = {};
+      const headqueartersUser = response.data.headquearters.map(
+        (headquearter) => headquearter.name
+      );
+      if (!loadingHeadquearters) {
         dataHeadquearters.forEach((headquearter) => {
-          headquearterSelect[headquearter.name] = headqueartersUser.includes(headquearter.name);
+          headquearterSelect[headquearter.name] = headqueartersUser.includes(
+            headquearter.name
+          );
+        });
+      }
+      const specialtySelect = {};
+      const specialtyUser = specialty
+      if (!loadingSpecialties){
+        dataSpecialties.forEach((specialty) =>{
+          specialtySelect[specialty.name] = specialtyUser.includes(specialty._id);
         });
       };
 
@@ -149,9 +176,10 @@ const UserForm = () => {
         email,
         birthday: formattedBirthday,
         hierarchy: hierarchySelect,
-        headquearters: headquearterSelect
+        headquearters: headquearterSelect,
+        specialty: specialtySelect,
+        isTeacher
       });
-      console.log(response);
     }
     if (params.id !== "newUser") {
       getData();
@@ -166,44 +194,38 @@ const UserForm = () => {
       let selectedHierarchy = hierarchyUser.filter((hierarchy) => {
         return data.hierarchy[hierarchy.name] === true;
       });
-      //Hierarchy > 1
-      let checkbox = false;
-      if (selectedHierarchy.length > 1) {
-        const selectedHierarchies = Object.keys(data.hierarchy).filter(
-          (key) => data.hierarchy[key]
-        );
-        if (selectedHierarchies.includes("Supervisor")) {
-          selectedHierarchy = "mixto_superior";
-        } else {
-          selectedHierarchy = "mixto";
-        }
-      } else if (selectedHierarchy.length === 0) {
-        /*
-        checkbox = true;
-        setError("checkboxGroup", {
-          type: "manual",
-          message: "Selecciona al menos una Jerarquia",
-        });
-        */
-      } else {
-        selectedHierarchy = selectedHierarchy[0].name.toLowerCase();
+      selectedHierarchy = selectedHierarchy[0].name.toLowerCase();
+      //Teacher
+      let isTeacher = data.isTeacher;
+      if (
+        selectedHierarchy === "coordinador" ||
+        selectedHierarchy === "profesor"
+      ) {
+        isTeacher = true;
       }
       //Select Headquearter
       let selectedHeadquarters;
-      if (!checkbox) {
-        if (
-          selectedHierarchy === "coordinador" ||
-          selectedHierarchy === "supervisor" ||
-          selectedHierarchy === "gerente" ||
-          selectedHierarchy === "mixto_superior"
-        ) {
-          selectedHeadquarters = dataHeadquearters;
-        } else {
-          selectedHeadquarters = dataHeadquearters.filter((headquearter) => {
-            return data.headquearters[headquearter.name] === true;
-          });
-        }
+      if (
+        selectedHierarchy === "coordinador" ||
+        selectedHierarchy === "supervisor" ||
+        selectedHierarchy === "gerente"
+      ) {
+        selectedHeadquarters = dataHeadquearters;
+      } else {
+        selectedHeadquarters = dataHeadquearters.filter((headquearter) => {
+          return data.headquearters[headquearter.name] === true;
+        });
       }
+
+      //selec Specialties for Teacher
+      let selectedSpecialties
+      if(isTeacher){ //if not a teacher, no setting for specialty 
+        selectedSpecialties = dataSpecialties.filter((specialty) => {
+          return data.specialty[specialty.name] === true;
+        });
+      } else {
+        selectedSpecialties = [];
+      };
 
       const newUser = {
         username,
@@ -213,11 +235,62 @@ const UserForm = () => {
         birthday,
         headquearters: selectedHeadquarters,
         hierarchy: selectedHierarchy,
+        specialty: selectedSpecialties,
+        isTeacher
       };
-      console.log(newUser);
       const response = await createUser(newUser);
+      console.log(response);
     } else {
-      console.log(data);
+      const { username, fullname, email, birthday } = data;
+      let selectedHierarchy = hierarchyUser.filter((hierarchy) => {
+        return data.hierarchy[hierarchy.name] === true;
+      });
+      selectedHierarchy = selectedHierarchy[0].name.toLowerCase();
+      //Teacher
+      let isTeacher = data.isTeacher;
+      if (
+        selectedHierarchy === "coordinador" ||
+        selectedHierarchy === "profesor"
+      ) {
+        isTeacher = true;
+      }
+      //Select Headquearter
+      let selectedHeadquarters;
+      if (
+        selectedHierarchy === "coordinador" ||
+        selectedHierarchy === "supervisor" ||
+        selectedHierarchy === "gerente"
+      ) {
+        selectedHeadquarters = dataHeadquearters;
+      } else {
+        selectedHeadquarters = dataHeadquearters.filter((headquearter) => {
+          return data.headquearters[headquearter.name] === true;
+        });
+      }
+
+      //selec Specialties for Teacher
+      let selectedSpecialties
+      if(isTeacher){ //if not a teacher, no setting for specialty 
+        selectedSpecialties = dataSpecialties.filter((specialty) => {
+          return data.specialty[specialty.name] === true;
+        });
+      } else {
+        selectedSpecialties = [];
+      };
+
+      const editedUser = {
+        _id: params.id, 
+        username,
+        fullname,
+        email,
+        birthday,
+        headquearters: selectedHeadquarters,
+        hierarchy: selectedHierarchy,
+        specialty: selectedSpecialties,
+        isTeacher
+      };
+      const response = await editUser(editedUser);
+      console.log(response);
     }
   };
 
@@ -230,25 +303,26 @@ const UserForm = () => {
             <Controller
               name={`${option}.${data.name}`}
               control={control}
-              defaultValue= {false}
+              defaultValue={false}
               render={({ field }) => (
                 <div className="flex items-center mb-4">
                   {/*console.log(field)*/}
-                  {field.value ?
-                  <input
-                  id={`checkbox-${data._id}`}
-                  type="checkbox"
-                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                  {...field}
-                  checked
-                  />
-                  :
-                  <input
-                    id={`checkbox-${data._id}`}
-                    type="checkbox"
-                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                    {...field}
-                  />}
+                  {field.value ? (
+                    <input
+                      id={`checkbox-${data._id}`}
+                      type="checkbox"
+                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                      {...field}
+                      checked
+                    />
+                  ) : (
+                    <input
+                      id={`checkbox-${data._id}`}
+                      type="checkbox"
+                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                      {...field}
+                    />
+                  )}
 
                   <label
                     htmlFor={`checkbox-${data._id}`}
@@ -357,6 +431,45 @@ const UserForm = () => {
                 loadingHeadquearters,
                 "headquearters"
               )}
+            </div>
+          )}
+          {openTeacherOther && (
+            <div>
+              <div className="flex items-center mb-4">
+                <Controller
+                  name="isTeacher"
+                  control={control}
+                  defaultValue={false}
+                  render={({ field }) => (
+                    <div className="flex items-center mb-4">
+                      {/*console.log(field)*/}
+                      {field.value ? (
+                        <input
+                          id={`checkbox-isTeacher`}
+                          type="checkbox"
+                          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                          {...field}
+                          checked
+                        />
+                      ) : (
+                        <input
+                          id={`checkbox-isTeacher`}
+                          type="checkbox"
+                          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                          {...field}
+                        />
+                      )}
+
+                      <label
+                        htmlFor={`checkbox-isTeacher`}
+                        className="ml-2 text-sm font-medium"
+                      >
+                        Es Profesor
+                      </label>
+                    </div>
+                  )}
+                />
+              </div>
             </div>
           )}
           {openTeacher && (
