@@ -67,49 +67,9 @@ export const editUser = async (req,res) =>{
       { new: true }
     );
 
-  /*  usersHeadquearters.find({ user: _id }, (err, relationships) => {
-      if (err) {
-          console.error('Error al buscar las relaciones:', err);
-          // Manejo de errores
-      } else {
-          // Itera sobre las relaciones existentes.
-          relationships.forEach((relationship) => {
-              // Si la sede actual no está en las nuevas sedes, elimina la relación.
-              if (!newHeadquarterIds.includes(relationship.headquarter.toString())) {
-                  relationship.remove((err) => {
-                      if (err) {
-                          console.error('Error al eliminar la relación:', err);
-                          // Manejo de errores
-                      } else {
-                          console.log('Relación eliminada con éxito.');
-                      }
-                  });
-              }
-          });
-  
-          // Agrega las nuevas sedes como relaciones.
-          newHeadquarterIds.forEach((newHeadquarterId) => {
-              if (!relationships.some((rel) => rel.headquarter.toString() === newHeadquarterId)) {
-                  const newRelationship = new usersHeadquearters({
-                      user: _id,
-                      headquarter: newHeadquarterId,
-                  });
-  
-                  newRelationship.save((err) => {
-                      if (err) {
-                          console.error('Error al crear la relación:', err);
-                          // Manejo de errores
-                      } else {
-                          console.log('Relación creada con éxito.');
-                      }
-                  });
-              }
-          });
-  
-          // Continúa con tu lógica de aplicación.
-      }
-  });
-  */
+    const headuser = usersHeadquearters.find({ user: _id });
+    console.log(headuser);
+
   res.json({
     message: "Usuario Guardado Correctamente",
   });
