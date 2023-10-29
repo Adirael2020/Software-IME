@@ -1,6 +1,15 @@
 import Button from "./Button"
+import { useRouter } from "next/navigation";
+import { useSelector } from 'react-redux';
+
 
 const ProfileUser = ({closeModal}) => {
+  
+  const navigate = useRouter();
+  const user = useSelector((state) => state.user.user);
+  
+  console.log(user);
+
   return (
     <div>
       <div> 
@@ -8,10 +17,10 @@ const ProfileUser = ({closeModal}) => {
           Imagen
         </div>
         <div>
-          fullname
+          {user.data.fullname}
         </div>
         <div>
-          Editar Perfil
+        <Button text={"Editar Perfil"} onClick={() => {closeModal();navigate.push("/homePage/profile")}}/>
         </div>
       </div>
       <Button text={"X"} className="bg-red-600 h-10 p-2" onClick={()=>{closeModal()}} />
@@ -19,4 +28,4 @@ const ProfileUser = ({closeModal}) => {
   )
 }
 
-export default ProfileUser
+export default ProfileUser;
