@@ -67,7 +67,7 @@ export const editUser = async (req, res) => {
       { new: true }
     );
 
-    await usersHeadquearters.deleteMany({ user: _id });
+    await usersHeadquearters.deleteMany({ user: _id }   );
     headqueartersFromUser.forEach((headquearterID) => {
       const newLinks = new usersHeadquearters({
         headquearter: headquearterID,
