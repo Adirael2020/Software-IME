@@ -27,7 +27,7 @@ const handler = NextAuth({
         signIn: "/login",
     },
     callbacks: {
-        async session({session,user,token}) {
+        async session({session,user,token}) {            
             session.user = token.sub as any;
             return session;
         },
