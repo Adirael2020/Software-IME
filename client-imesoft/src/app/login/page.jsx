@@ -17,8 +17,9 @@ const login = () => {
   const [visual, setVisual] = useState(true);
 
   return (
+    
     <div className="flex items-center justify-center h-screen bg-[url('/fondo.jpg')]">
-      <div>
+      <div className="">
         <Logo />
       </div>
       <div>
