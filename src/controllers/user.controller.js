@@ -13,7 +13,7 @@ export const createUser = async (req, res) => {
     specialty,
     birthday,
     headquearters: headqueartersFromUser,
-    isTeacher
+    isTeacher,
   } = req.body;
   try {
     const passwordHash = await bcrypt.hash(password, 10); //encriptacion de la clave
@@ -28,7 +28,7 @@ export const createUser = async (req, res) => {
       isActive,
       specialty,
       birthday,
-      isTeacher
+      isTeacher,
     });
     //relacion muchos a muchos de sedes con usuarios
     headqueartersFromUser.forEach((headquearterID) => {
@@ -48,7 +48,7 @@ export const createUser = async (req, res) => {
 };
 
 //edit User
-export const editUser = async (req,res) =>{
+export const editUser = async (req, res) => {
   const {
     username,
     fullname,
@@ -59,24 +59,29 @@ export const editUser = async (req,res) =>{
     isTeacher,
     headquearters: headqueartersFromUser,
   } = req.body;
-  const _id = req.params.id; 
+  const _id = req.params.id;
   try {
     const userUpdate = await user.findOneAndUpdate(
       { _id },
-      { username, fullname, email, hierarchy, specialty, birthday, isTeacher},
+      { username, fullname, email, hierarchy, specialty, birthday, isTeacher },
       { new: true }
     );
 
-    const headuser = usersHeadquearters.find({ user: _id });
-    console.log(headuser);
+    await usersHeadquearters.deleteMany({ user: _id });
+    headqueartersFromUser.forEach((headquearterID) => {
+      const newLinks = new usersHeadquearters({
+        headquearter: headquearterID,
+        user: _id,
+      });
+      newLinks.save(); //Guardar el link en mongo
+    });
 
-  res.json({
-    message: "Usuario Guardado Correctamente",
-  });
+    res.json({
+      message: "Usuario Guardado Correctamente",
+    });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
-
 };
 
 //get All Users
@@ -127,7 +132,7 @@ export const getUser = async (req, res) => {
     console.log(error);
     return res.status(500).json({ message: error.message });
   }
-}; 
+};
 
 //reset pasword
 export const resetPassword = async (req, res) => {
