@@ -14,13 +14,13 @@ const LoginStuden = () => {
     const onSubmit = (data) => console.log(data);
 
     return (
-        <div className="p-2">
+        <div className="p-1">
             <form onSubmit={handleSubmit(onSubmit)}>
                 <input
                     label="Write your email"
                     type="email"
                     name="email"
-                    placeholder="Mail"
+                    placeholder="Email"
                     className="w-full focus:outline-none appearance-none bg-transparent font-medium border-b-2 placeholder:italic placeholder:text-slate-600 border-slate-700 text-slate-900 px-4 py-2 my-4"
                     {...register("email", { required: true })}
                 />

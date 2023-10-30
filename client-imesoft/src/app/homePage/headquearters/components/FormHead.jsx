@@ -66,12 +66,12 @@ const FormHead = () => {
                 name: data.name,
                 abbreviation: data.abbreviation,
                 direction: data.direction
-            }
+            };
             const result = await editHeadquearter(editHead);
             setTimeout(() => {
-                setMessage("Guardado Correctamente")
+                setMessage("Guardado Correctamente");
             }, 3000);
-            navigate.push('/homePage/headquearters')
+            navigate.push('/homePage/headquearters');
         } else {
             const result = await createHeadquearter(data);
             setTimeout(() => {

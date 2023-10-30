@@ -1,6 +1,7 @@
 import Button from "./Button"
 import { useRouter } from "next/navigation";
 import { useSelector } from 'react-redux';
+import Image from "next/image";
 
 
 const ProfileUser = ({closeModal}) => {
@@ -8,13 +9,11 @@ const ProfileUser = ({closeModal}) => {
   const navigate = useRouter();
   const user = useSelector((state) => state.user.user);
   
-  console.log(user);
-
   return (
     <div>
       <div> 
         <div>
-          Imagen
+          <Image src={"/profile.png"} width={100} height={100} alt="Profile"/>
         </div>
         <div>
           {user.data.fullname}

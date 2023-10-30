@@ -6,8 +6,8 @@ function Logo(){
     <div className={styles.logo}>
         <Image src="/IMEnegro.png" 
         alt="Feed"
-              width={170}
-              height={170}
+              width={250}
+              height={250}
               priority={true}/>  
   </div>
     )

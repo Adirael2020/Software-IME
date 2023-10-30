@@ -240,6 +240,7 @@ const UserForm = () => {
       };
       const response = await createUser(newUser);
       console.log(response);
+      navigate.push('/homePage/users');
     } else {
       const { username, fullname, email, birthday } = data;
       let selectedHierarchy = hierarchyUser.filter((hierarchy) => {
@@ -291,7 +292,8 @@ const UserForm = () => {
       };
       const response = await editUser(editedUser);
       console.log(response);
-    }
+      navigate.push('/homePage/users');
+    };
   };
 
   //Funtion for checkbox

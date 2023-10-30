@@ -46,7 +46,7 @@ const LoginUser = () => {
     }
   };
   return (
-    <div className="p-2">
+    <div className="p-1 mt-5 items-center">
       {error !== undefined &&
         <div className="bg-red-500 text-white text-center my-2">
           {error}

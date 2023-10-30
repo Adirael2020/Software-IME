@@ -12,10 +12,10 @@ const ButtonLogout = () => {
     const [logoutUser] = useLogoutUserMutation();
     const logOut = async() => {
         const result = logoutUser();
-        dispatch(outUser());
         await signOut({
           callbackUrl: "/login",
-        })
+        });
+        dispatch(outUser());
     }
   
     return (
