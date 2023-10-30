@@ -12,11 +12,18 @@ const page = () => {
   const [getUser, isLoadingGet] = useGetUserMutation();
 
   useEffect(() => {
+    function formatDateForInput(dateString) {
+      const date = new Date(dateString);
+      return date.toISOString().slice(0, 10); // Esto formatea la fecha como "aaaa-mm-dd"
+    }
     const loadUser = async () => {
       const response = await getUser(user.data.id);
-      const { fullname } = response.data;
+      const { fullname, email, birthday } = response.data;
+      const formattedBirthday = formatDateForInput(birthday);
       reset({
         fullname,
+        email,
+        birthday: formattedBirthday
       });
     };
     loadUser();
@@ -33,12 +40,12 @@ const page = () => {
     watch,
   } = useForm();
 
-  const onSubmit = async (data) => {};
+  const onSubmit = async (data) => { };
 
   return (
     <div>
       profile
-      <div>
+      <div className="w-80">
         <form onSubmit={handleSubmit(onSubmit)}>
           {/* FullName */}
           <input
@@ -54,6 +61,34 @@ const page = () => {
             })}
           />
           <p className="text-red-700">{formErrors.fullname?.message}</p>
+          {/* Email */}
+          <input
+            type="email"
+            name="email"
+            placeholder="Correo Electronico"
+            className="w-full focus:outline-none appearance-none placeholder:italic placeholder:text-slate-600 bg-transparent font-medium border-b-2 border-slate-700 px-4 py-2 my-4"
+            {...register("email", {
+              required: {
+                value: true,
+                message: "Se requiere Correo Electronico",
+              },
+            })}
+          />
+          <p className="text-red-700">{formErrors.email?.message}</p>
+
+          {/* Fecha de Nacimiento */}
+          <input
+            type="date"
+            name="birthday"
+            className="w-full focus:outline-none appearance-none placeholder:italic placeholder:text-slate-600 bg-transparent font-medium border-b-2 border-slate-700 px-4 py-2 my-4"
+            {...register("birthday", {
+              required: {
+                value: true,
+                message: "Se requiere Fecha de Nacimiento",
+              },
+            })}
+          />
+          <p className="text-red-700">{formErrors.birthday?.message}</p>
         </form>
       </div>
     </div>
