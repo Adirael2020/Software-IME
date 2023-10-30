@@ -19,7 +19,7 @@ const ButtonLogout = () => {
     }
   
     return (
-    <button onClick={() => {logOut()}} className='btn bg-red-700 p-1 text-white'>Cerrar Sesion</button>
+    <button onClick={() => {logOut()}} className='btn bg-red-700 p-2 mx-2 text-white hover:underline underline-offset-4'>Cerrar Sesion</button>
   )
 }
 

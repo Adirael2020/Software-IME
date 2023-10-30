@@ -7,7 +7,8 @@ import Button from "../../components/Button.jsx";
 import LoginUser from "./components/LoginUser.jsx";
 import LoginStuden from "./components/LoginStuden.jsx";
 import { useState } from "react";
-//Estilos
+//Estilos css
+import styles from "../styles/login.module.css";
 //Imagenes
 import Carousel from "./components/CarouselLogin.jsx";
 //Logo
@@ -16,22 +17,18 @@ import Logo from "./components/Logo.jsx";
 const login = () => {
   const [visual, setVisual] = useState(true);
 
-  const arrayImage = [
-    '/feed.jpg',
-    '/feed_2.jpg',
-    '/feed_3 (1).jpg'
-  ];
+  const arrayImage = ["/feed.jpg", "/feed_2.jpg", "/feed_3 (1).jpg"];
 
   return (
     <div className="items-center justify-center h-screen bg-[url('/fondo.jpg')]">
       <div className="">
         <Logo />
       </div>
-      <div className="flex justify-center my-40">
-        <div>
+      <div className="flex justify-center my-20">
+        <div className={styles.carrouselcontainer}>
           <Carousel images={arrayImage} />
         </div>
-        <div className=" bg-slate-800/30 overflow-auto	md:shrink-0 border-b-2 border-slate-700  text-white w-5/12">
+        <div className=" bg-slate-800/30 overflow-auto	border-b-2 border-slate-700  text-white w-6/12">
           <div className=" flex justify-center items-center">
             <Button
               onClick={() => {

@@ -4,6 +4,7 @@ import Button from './Button'
 import ButtonLogout from './ButtonLogout'
 import ProfileUser from './ProfileUser.jsx'
 import { useRouter, usePathname } from "next/navigation";
+import Logo from "./LogoNavbar";
 
 
 export default function Navbar() {
@@ -17,7 +18,10 @@ export default function Navbar() {
 
  return (
   <div>
-    <nav className="bg-slate-900 flex items-center py-3 justify-between px-24 text-white">
+    <nav className="bg-slate-900 flex items-center py-1 px-2 justify-between text-white">
+      <div>
+        <Logo />
+      </div>
       <Button text={"Home"} onClick={() => navigate.push("/homePage")}/>
       {pathname !== "/homePage" && 
         <Button text={"Back"} onClick={() => navigate.back()}/>

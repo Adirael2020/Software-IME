@@ -38,7 +38,7 @@ const LoginStuden = () => {
                     <button className='bg-slate-900 text-white w-1/2 font-medium hover:bg-slate-800 p-2 rounded-full'>Ingresar</button>
                 </div>
             </form>
-            <p className="flex gap-x-2 justify-between">
+            <p className="flex gap-x-2 mt-1 justify-between">
                 ¿No tenes Cuenta? <Link href="/login/registerStudent" className="text-slate-400 hover:text-slate-500">Registrarse</Link>
             </p>
         </div>
