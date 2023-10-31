@@ -122,7 +122,15 @@ const UserForm = () => {
     }
     async function getData() {
       const response = await getUser(params.id);
-      const { username, fullname, email, birthday, hierarchy, isTeacher, specialty } = response.data;
+      const {
+        username,
+        fullname,
+        email,
+        birthday,
+        hierarchy,
+        isTeacher,
+        specialty,
+      } = response.data;
       const formattedBirthday = formatDateForInput(birthday);
       const hierarchySelect = {
         Administrativo: false,
@@ -163,12 +171,14 @@ const UserForm = () => {
         });
       }
       const specialtySelect = {};
-      const specialtyUser = specialty
-      if (!loadingSpecialties){
-        dataSpecialties.forEach((specialty) =>{
-          specialtySelect[specialty.name] = specialtyUser.includes(specialty._id);
+      const specialtyUser = specialty;
+      if (!loadingSpecialties) {
+        dataSpecialties.forEach((specialty) => {
+          specialtySelect[specialty.name] = specialtyUser.includes(
+            specialty._id
+          );
         });
-      };
+      }
 
       reset({
         username,
@@ -178,13 +188,13 @@ const UserForm = () => {
         hierarchy: hierarchySelect,
         headquearters: headquearterSelect,
         specialty: specialtySelect,
-        isTeacher
+        isTeacher,
       });
     }
     if (params.id !== "newUser") {
       getData();
     }
-  }, []);
+  }, [loadingHeadquearters,loadingSpecialties]);
 
   //submit
   const onSubmit = async (data) => {
@@ -218,14 +228,15 @@ const UserForm = () => {
       }
 
       //selec Specialties for Teacher
-      let selectedSpecialties
-      if(isTeacher){ //if not a teacher, no setting for specialty 
+      let selectedSpecialties;
+      if (isTeacher) {
+        //if not a teacher, no setting for specialty
         selectedSpecialties = dataSpecialties.filter((specialty) => {
           return data.specialty[specialty.name] === true;
         });
       } else {
         selectedSpecialties = [];
-      };
+      }
 
       const newUser = {
         username,
@@ -236,11 +247,11 @@ const UserForm = () => {
         headquearters: selectedHeadquarters,
         hierarchy: selectedHierarchy,
         specialty: selectedSpecialties,
-        isTeacher
+        isTeacher,
       };
       const response = await createUser(newUser);
       console.log(response);
-      navigate.push('/homePage/users');
+      navigate.push("/homePage/users");
     } else {
       const { username, fullname, email, birthday } = data;
       let selectedHierarchy = hierarchyUser.filter((hierarchy) => {
@@ -270,17 +281,18 @@ const UserForm = () => {
       }
 
       //selec Specialties for Teacher
-      let selectedSpecialties
-      if(isTeacher){ //if not a teacher, no setting for specialty 
+      let selectedSpecialties;
+      if (isTeacher) {
+        //if not a teacher, no setting for specialty
         selectedSpecialties = dataSpecialties.filter((specialty) => {
           return data.specialty[specialty.name] === true;
         });
       } else {
         selectedSpecialties = [];
-      };
+      }
 
       const editedUser = {
-        _id: params.id, 
+        _id: params.id,
         username,
         fullname,
         email,
@@ -288,12 +300,12 @@ const UserForm = () => {
         headquearters: selectedHeadquarters,
         hierarchy: selectedHierarchy,
         specialty: selectedSpecialties,
-        isTeacher
+        isTeacher,
       };
       const response = await editUser(editedUser);
       console.log(response);
-      navigate.push('/homePage/users');
-    };
+      navigate.push("/homePage/users");
+    }
   };
 
   //Funtion for checkbox
@@ -308,24 +320,13 @@ const UserForm = () => {
               defaultValue={false}
               render={({ field }) => (
                 <div className="flex items-center mb-4">
-                  {/*console.log(field)*/}
-                  {field.value ? (
-                    <input
-                      id={`checkbox-${data._id}`}
-                      type="checkbox"
-                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                      {...field}
-                      checked
-                    />
-                  ) : (
-                    <input
-                      id={`checkbox-${data._id}`}
-                      type="checkbox"
-                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                      {...field}
-                    />
-                  )}
-
+                  <input
+                    id={`checkbox-${data._id}`}
+                    type="checkbox"
+                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                    {...field}
+                    checked={field.value} // Usar field.value para establecer el estado del checkbox
+                  />
                   <label
                     htmlFor={`checkbox-${data._id}`}
                     className="ml-2 text-sm font-medium"
