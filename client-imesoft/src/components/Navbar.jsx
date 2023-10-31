@@ -17,6 +17,7 @@ export default function Navbar() {
   return (
     <div>
       <nav className="bg-slate-900 flex items-center py-1 px-2 justify-between text-white">
+        <Button text={"Back"} onClick={() => navigate.back()} />
         <a
           href="/homePage"
           onClick={(e) => {
@@ -26,7 +27,7 @@ export default function Navbar() {
         >
           <Logo text={"Home"} />
         </a> 
-        <Button text={"<"} onClick={() => navigate.back()} />
+        
         <div>
           {!open && (
             <Button
