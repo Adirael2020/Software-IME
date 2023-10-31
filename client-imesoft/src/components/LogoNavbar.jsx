@@ -5,8 +5,8 @@ function Logo(){
     <div className="">
         <Image src="/IMEblanco.png" 
         alt="Logo de navbar"
-              width={200}
-              height={200}
+              width={170}
+              height={170}
               priority={true}/>  
   </div>
     )

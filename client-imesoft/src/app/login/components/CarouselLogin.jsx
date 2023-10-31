@@ -20,7 +20,8 @@ const Carousel = ({ images }) => {
   }, [images.length]);
 
   return (
-    <div className={styles.carousel}>
+    <div className={styles.carouselcontainer}>
+      <div className={styles.carousel}>
       {images.map((imageUrl, index) => (
         <div
           key={index}
@@ -36,6 +37,7 @@ const Carousel = ({ images }) => {
           />
         </div>
       ))}
+    </div>
     </div>
   );
 };
