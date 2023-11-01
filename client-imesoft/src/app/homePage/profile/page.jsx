@@ -1,7 +1,7 @@
 "use client";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { useGetUserMutation } from "../../../redux/services/userApi";
+import { useGetUserMutation,useEditProfileUserMutation } from "../../../redux/services/userApi";
 
 //Formulario
 import { useForm } from "react-hook-form";
@@ -17,6 +17,7 @@ const page = () => {
   const user = useSelector((state) => state.user.user);
 
   const [getUser, isLoading] = useGetUserMutation();
+  const [editProfileBack, isLoadingBackend] = useEditProfileUserMutation();
 
   useEffect(() => {
     function formatDateForInput(dateString) {
@@ -50,12 +51,20 @@ const page = () => {
   } = useForm();
 
   //function from modal pasword
-  function closeModal () {
+  function closeModal() {
     setEditPasswordModal(false);
   };
 
   const onSubmit = async (data) => {
-    console.log(data);
+    const {fullname,email,birthday} = data;
+    const edit = {
+      _id: user.data.id,
+      fullname,
+      email,
+      birthday
+    }
+    const response = await editProfileBack(edit);
+    console.log(response);
     setEditProfile(true);
   };
 
@@ -112,29 +121,32 @@ const page = () => {
             })}
           />
           <p className="text-red-700">{formErrors.birthday?.message}</p>
-          {!editProfile && 
-            <Button text={"Guardar Cambios"} className={"bg-green-600 p-2 text-white"}/>
+          {!editProfile &&
+            <Button text={"Guardar Cambios"} className={"bg-green-600 p-2 text-white"} />
           }
         </form>
       </div>
       <div>
-        <Button
-          text={"Editar Perfil"}
-          className={"bg-slate-600 p-1 m-1"}
-          onClick={() => {
-            setEditProfile(false);
-          }}
-        />
-        <Button
-          text={"Editar Contraseña"}
-          className={"bg-slate-600 p-1 m-1"}
-          onClick={() => {
-            setEditPasswordModal(true);
-          }}
-        />
+        {editProfile &&
+          <Button
+            text={"Editar Perfil"}
+            className={"bg-slate-600 p-1 m-1"}
+            onClick={() => {
+              setEditProfile(false);
+            }}
+          />
+        }
+        {!editPasswordModal &&
+          <Button
+            text={"Editar Contraseña"}
+            className={"bg-slate-600 p-1 m-1"}
+            onClick={() => {
+              setEditPasswordModal(true);
+            }}
+          />}
       </div>
       {editPasswordModal &&
-        <ModalPassword closeModal={closeModal}/>
+        <ModalPassword closeModal={closeModal} />
       }
     </div>
   );

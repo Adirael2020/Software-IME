@@ -40,6 +40,15 @@ export const userApi = createApi({
             }),
             invalidatesTags: ["Users"],
         }),
+        //EditProfile
+        editProfileUser: builder.mutation({
+            query: (editProfile) => ({
+                url: `/editProfileUser/${editProfile._id}`,
+                method: 'PUT',
+                body: editProfile,
+            }),
+            invalidatesTags: ["Users"],
+        }),
         //ResetPassword
         resetPassword: builder.mutation({
             query: (id) => ({
@@ -56,7 +65,7 @@ export const userApi = createApi({
             invalidatesTags: ["Users"],
         }),
         //deactivateUser
-        deactivateUser: builder.mutation({            
+        deactivateUser: builder.mutation({
             query: (id) => ({
                 url: `/deactivateUser/${id}`,
                 method: 'PUT'
@@ -66,4 +75,4 @@ export const userApi = createApi({
     })
 });
 
-export const { useCreateUserMutation, useGetUsersQuery, useGetUserMutation, useEditUserMutation, useActivateUserMutation, useDeactivateUserMutation, useResetPasswordMutation } = userApi;
+export const { useCreateUserMutation, useGetUsersQuery, useGetUserMutation, useEditUserMutation, useActivateUserMutation, useDeactivateUserMutation, useResetPasswordMutation, useEditProfileUserMutation } = userApi;

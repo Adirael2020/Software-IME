@@ -61,7 +61,7 @@ export const editUser = async (req, res) => {
   } = req.body;
   const _id = req.params.id;
   try {
-    const userUpdate = await user.findOneAndUpdate(
+    await user.findOneAndUpdate(
       { _id },
       { username, fullname, email, hierarchy, specialty, birthday, isTeacher },
       { new: true }
@@ -78,6 +78,22 @@ export const editUser = async (req, res) => {
 
     res.json({
       message: "Usuario Guardado Correctamente",
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+export const editProfile = async (req,res) => {
+  const {fullname, email, birthday} = req.body;
+  const _id = req.params.id;
+  try {
+    await user.findOneAndUpdate(
+      { _id },
+      { fullname, email, birthday},
+      { new: true }
+    );
+    res.json({
+      message: "Usuario Editado Correctamente",
     });
   } catch (error) {
     res.status(500).json({ message: error.message });

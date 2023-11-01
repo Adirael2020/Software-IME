@@ -13,11 +13,10 @@ export default function Navbar() {
   const closeModal = () => {
     setOpen(false);
   };
-
   return (
     <div>
       <nav className="bg-slate-900 flex items-center py-1 px-2 justify-between text-white">
-        <Button text={"Back"} onClick={() => navigate.back()} />
+        {pathname != '/homePage' && <Button text={"Back"} onClick={() => navigate.back()} />}
         <a
           href="/homePage"
           onClick={(e) => {
