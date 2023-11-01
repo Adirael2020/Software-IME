@@ -21,7 +21,7 @@
   }
 
   @media (max-width: 768px) {
-    .carouselcontainer{
+    .carouselcontainer {
       display: none;
     }
   }
