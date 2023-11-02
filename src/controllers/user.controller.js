@@ -167,6 +167,14 @@ export const resetPassword = async (req, res) => {
     return res.status(500).json({ message: error.message });
   }
 };
+//Edit pasword profile
+export const editPasswordProfile = async (req,res) => {
+  const {currentPassword, newPassword, retryNewPassword} = req.body;
+  const _id = req.params.id;
+
+  const userFound = await user.findOne({_id});
+
+};
 //deactivate user
 export const deactivateUser = async (req, res) => {
   try {

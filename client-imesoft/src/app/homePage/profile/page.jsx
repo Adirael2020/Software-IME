@@ -2,6 +2,8 @@
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { useGetUserMutation,useEditProfileUserMutation } from "../../../redux/services/userApi";
+import { useDispatch } from "react-redux";
+import { editUser } from "../../../redux/features/userSlice.ts";
 
 //Formulario
 import { useForm } from "react-hook-form";
@@ -12,10 +14,14 @@ import Button from "../../../components/Button.jsx";
 import ModalPassword from "./components/ModalPassword.jsx";
 
 const page = () => {
-  const [editProfile, setEditProfile] = useState(true);
-  const [editPasswordModal, setEditPasswordModal] = useState(false);
+
+  //redux
+  const dispach = useDispatch();
   const user = useSelector((state) => state.user.user);
 
+  //modals y edits
+  const [editProfile, setEditProfile] = useState(true);
+  const [editPasswordModal, setEditPasswordModal] = useState(false);
   const [getUser, isLoading] = useGetUserMutation();
   const [editProfileBack, isLoadingBackend] = useEditProfileUserMutation();
 
@@ -63,8 +69,8 @@ const page = () => {
       email,
       birthday
     }
-    const response = await editProfileBack(edit);
-    console.log(response);
+    const response = await editProfileBack(edit);    
+    await dispach(editUser(edit));
     setEditProfile(true);
   };
 
@@ -102,6 +108,10 @@ const page = () => {
               required: {
                 value: true,
                 message: "Se requiere Correo Electronico",
+              },
+              pattern: {
+                value: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
+                message: "Correo no válido",
               },
             })}
           />
