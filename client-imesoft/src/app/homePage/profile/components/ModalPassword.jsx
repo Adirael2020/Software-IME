@@ -6,7 +6,10 @@ import Button from "../../../../components/Button";
 //Formulario
 import { useForm } from "react-hook-form";
 
-const ModalPassword = ({ closeModal }) => {
+//Redux
+import { useEditPasswordMutation } from "../../../../redux/services/userApi";
+
+const ModalPassword = ({ closeModal, id }) => {
   //React Hook Form
   const {
     register,
@@ -21,8 +24,19 @@ const ModalPassword = ({ closeModal }) => {
   const newPassword = useRef(null);
   newPassword.current = watch("newPassword", "");
 
+  const [editPasswordBack] = useEditPasswordMutation();
+
+
   const onSubmit = async (data) => {
+    const formEdit = {
+      _id: id,
+      currentPassword : data.currentPassword,
+      newPassword: data.newPassword,
+      retryNewPassword: data.retryNewPassword
+    };
+    const response = await editPasswordBack(formEdit);
     console.log(data);
+    console.log(response);
     closeModal();
   };
 

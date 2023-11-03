@@ -1,6 +1,6 @@
 import { Router } from "express";
 
-import { createUser, getUsers, resetPassword, activateUser,deactivateUser, getUser, editUser, editProfile} from "../controllers/user.controller.js";
+import { createUser, getUsers, resetPassword, activateUser,deactivateUser, getUser, editUser, editProfile, editPasswordProfile} from "../controllers/user.controller.js";
 import { authRequired } from "../middlewares/validateUserToken.js";
 
 //Zod
@@ -24,7 +24,7 @@ router.put("/deactivateUser/:id",authRequired,deactivateUser);
 //reset password user
 router.put("/resetPassword/:id",authRequired,resetPassword);
 //edit password user
-router.put("/editPasswordUser",authRequired);
+router.put("/editPassword/:id",authRequired,editPasswordProfile);
 
 
 export default router

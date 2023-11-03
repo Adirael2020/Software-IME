@@ -56,6 +56,14 @@ export const userApi = createApi({
                 method: 'PUT'
             })
         }),
+        //EditPassword
+        editPassword: builder.mutation({
+            query: (edit) =>({
+                url: `/editPassword/${edit._id}`,
+                methor: 'PUT',
+                body: edit
+            }),
+        }),
         //ActivateUser
         activateUser: builder.mutation({
             query: (id) => ({
@@ -75,4 +83,4 @@ export const userApi = createApi({
     })
 });
 
-export const { useCreateUserMutation, useGetUsersQuery, useGetUserMutation, useEditUserMutation, useActivateUserMutation, useDeactivateUserMutation, useResetPasswordMutation, useEditProfileUserMutation } = userApi;
+export const { useCreateUserMutation, useGetUsersQuery, useGetUserMutation, useEditUserMutation, useActivateUserMutation, useDeactivateUserMutation, useResetPasswordMutation, useEditProfileUserMutation, useEditPasswordMutation } = userApi;

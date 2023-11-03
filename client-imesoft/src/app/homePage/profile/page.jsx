@@ -156,7 +156,7 @@ const page = () => {
           />}
       </div>
       {editPasswordModal &&
-        <ModalPassword closeModal={closeModal} />
+        <ModalPassword closeModal={closeModal} id={user.data.id} />
       }
     </div>
   );
