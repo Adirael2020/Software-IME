@@ -174,7 +174,13 @@ export const editPasswordProfile = async (req,res) => {
     const _id = req.params.id;
   
     const userFound = await user.findOne({_id});
-    console.log(userFound);
+    const isMatch = await bcrypt.compare(currentPassword, userFound.password);
+    if(!isMatch) return res.status(400).json({message:"invalid credentials"});
+    if(currentPassword === newPassword) return res.status(400).json({message: "identic password"})
+    if(newPassword !== retryNewPassword) return res.status(400).json({message:"invalid new password"});
+    const passwordHash = await bcrypt.hash(newPassword, 10); 
+    userFound.password = passwordHash;
+    await userFound.save();
     res.json({message:"Contraseña Actualizada"});
   } catch (error) {
     return res.status(500).json({ message: error.message });

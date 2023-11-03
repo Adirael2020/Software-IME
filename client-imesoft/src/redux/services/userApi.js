@@ -54,13 +54,13 @@ export const userApi = createApi({
             query: (id) => ({
                 url: `/resetPassword/${id}`,
                 method: 'PUT'
-            })
+            }),
         }),
         //EditPassword
         editPassword: builder.mutation({
-            query: (edit) =>({
+            query: (edit) => ({
                 url: `/editPassword/${edit._id}`,
-                methor: 'PUT',
+                method: 'PUT',
                 body: edit
             }),
         }),

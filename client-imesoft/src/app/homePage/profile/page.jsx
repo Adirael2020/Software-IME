@@ -1,7 +1,7 @@
 "use client";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { useGetUserMutation,useEditProfileUserMutation } from "../../../redux/services/userApi";
+import { useGetUserMutation, useEditProfileUserMutation } from "../../../redux/services/userApi";
 import { useDispatch } from "react-redux";
 import { editUser } from "../../../redux/features/userSlice.ts";
 
@@ -62,14 +62,14 @@ const page = () => {
   };
 
   const onSubmit = async (data) => {
-    const {fullname,email,birthday} = data;
+    const { fullname, email, birthday } = data;
     const edit = {
       _id: user.data.id,
       fullname,
       email,
       birthday
     }
-    const response = await editProfileBack(edit);    
+    const response = await editProfileBack(edit);
     await dispach(editUser(edit));
     setEditProfile(true);
   };
@@ -132,7 +132,16 @@ const page = () => {
           />
           <p className="text-red-700">{formErrors.birthday?.message}</p>
           {!editProfile &&
-            <Button text={"Guardar Cambios"} className={"bg-green-600 p-2 text-white"} />
+            <div>
+              <Button text={"Guardar Cambios"} className={"bg-green-600 p-2 text-white"} />
+              <Button
+                text={"X"}
+                className="bg-red-600 h-10 p-2"
+                onClick={() => {
+                  closeModal();
+                }}
+              />
+            </div>
           }
         </form>
       </div>
