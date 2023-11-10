@@ -194,7 +194,7 @@ const UserForm = () => {
     if (params.id !== "newUser") {
       getData();
     }
-  }, [loadingHeadquearters,loadingSpecialties]);
+  }, [loadingHeadquearters, loadingSpecialties]);
 
   //submit
   const onSubmit = async (data) => {
@@ -421,6 +421,18 @@ const UserForm = () => {
             })}
           />
           <p className="text-red-700">{formErrors.birthday?.message}</p>
+          <label>Subir imagen:</label>
+          <Controller
+            name="imageProfile"
+            control={control}
+            defaultValue={null}
+            render={({ field }) => (
+              <input
+                type="file"
+                accept=".jpg, .jpeg, .png"
+              />
+            )}
+          />
         </div>
         <div className="flex">
           <div>
