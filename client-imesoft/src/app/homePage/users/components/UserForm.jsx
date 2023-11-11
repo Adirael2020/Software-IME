@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
+import Image from "next/image";
 //Formulario
 import { useForm, Controller } from "react-hook-form";
 //Components
@@ -291,6 +292,10 @@ const UserForm = () => {
         selectedSpecialties = [];
       }
 
+      //Image Profile
+      const formData = new FormData();
+      formData.append("file", data.imageProfile);
+
       const editedUser = {
         _id: params.id,
         username,
@@ -301,10 +306,11 @@ const UserForm = () => {
         hierarchy: selectedHierarchy,
         specialty: selectedSpecialties,
         isTeacher,
+        imageProfile: formData,
       };
       const response = await editUser(editedUser);
       console.log(response);
-      navigate.push("/homePage/users");
+      //navigate.push("/homePage/users");
     }
   };
 
@@ -341,6 +347,19 @@ const UserForm = () => {
       });
     }
   };
+  //validation image
+  const validateImage = (value) => {
+    if (!value) {
+      return "Campo requerido";
+    }
+
+    if (!["image/jpeg", "image/png"].includes(value[0].type)) {
+      return "Solo se permiten archivos JPG o PNG";
+    }
+
+    return true;
+  };
+
 
   return (
     <div>
@@ -425,12 +444,16 @@ const UserForm = () => {
           <Controller
             name="imageProfile"
             control={control}
-            defaultValue={null}
             render={({ field }) => (
-              <input
-                type="file"
-                accept=".jpg, .jpeg, .png"
-              />
+              <>
+                <input
+                  type="file"
+                  {...register("imageProfile", { validate: validateImage })}
+                  onChange={(e) => {
+                    field.onChange(e);
+                  }}
+                />
+              </>
             )}
           />
         </div>
