@@ -1,15 +1,29 @@
 "use client";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { useGetUserMutation } from "../../../redux/services/userApi";
+import { useGetUserMutation, useEditProfileUserMutation } from "../../../redux/services/userApi";
+import { useDispatch } from "react-redux";
+import { editUser } from "../../../redux/features/userSlice.ts";
 
 //Formulario
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
+
+//Components
+import Loading from "../../../components/Loading.jsx";
+import Button from "../../../components/Button.jsx";
+import ModalPassword from "./components/ModalPassword.jsx";
 
 const page = () => {
+
+  //redux
+  const dispach = useDispatch();
   const user = useSelector((state) => state.user.user);
 
-  const [getUser, isLoadingGet] = useGetUserMutation();
+  //modals y edits
+  const [editProfile, setEditProfile] = useState(true);
+  const [editPasswordModal, setEditPasswordModal] = useState(false);
+  const [getUser, isLoading] = useGetUserMutation();
+  const [editProfileBack, isLoadingBackend] = useEditProfileUserMutation();
 
   useEffect(() => {
     function formatDateForInput(dateString) {
@@ -17,17 +31,19 @@ const page = () => {
       return date.toISOString().slice(0, 10); // Esto formatea la fecha como "aaaa-mm-dd"
     }
     const loadUser = async () => {
-      const response = await getUser(user.data.id);
-      const { fullname, email, birthday } = response.data;
-      const formattedBirthday = formatDateForInput(birthday);
-      reset({
-        fullname,
-        email,
-        birthday: formattedBirthday
-      });
+      if (!isLoading.isLoading && user != null) {
+        const response = await getUser(user.data.id);
+        const { fullname, email, birthday } = response.data;
+        const formattedBirthday = formatDateForInput(birthday);
+        reset({
+          fullname,
+          email,
+          birthday: formattedBirthday,
+        });
+      }
     };
     loadUser();
-  }, []);
+  }, [user]);
 
   //React Hook Form
   const {
@@ -40,8 +56,27 @@ const page = () => {
     watch,
   } = useForm();
 
-  const onSubmit = async (data) => { };
+  //function from modal pasword
+  function closeModal() {
+    setEditPasswordModal(false);
+  };
 
+  const onSubmit = async (data) => {
+    const { fullname, email, birthday } = data;
+    const edit = {
+      _id: user.data.id,
+      fullname,
+      email,
+      birthday
+    }
+    const response = await editProfileBack(edit);
+    await dispach(editUser(edit));
+    setEditProfile(true);
+  };
+
+  if (user == null && isLoading) {
+    return <Loading />;
+  }
   return (
     <div>
       profile
@@ -53,6 +88,7 @@ const page = () => {
             name="fullname"
             placeholder="Nombre Completo de Usuario"
             className="w-full focus:outline-none appearance-none placeholder:italic placeholder:text-slate-600 bg-transparent font-medium border-b-2 border-slate-700 px-4 py-2 my-4"
+            disabled={editProfile}
             {...register("fullname", {
               required: {
                 value: true,
@@ -67,10 +103,15 @@ const page = () => {
             name="email"
             placeholder="Correo Electronico"
             className="w-full focus:outline-none appearance-none placeholder:italic placeholder:text-slate-600 bg-transparent font-medium border-b-2 border-slate-700 px-4 py-2 my-4"
+            disabled={editProfile}
             {...register("email", {
               required: {
                 value: true,
                 message: "Se requiere Correo Electronico",
+              },
+              pattern: {
+                value: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
+                message: "Correo no válido",
               },
             })}
           />
@@ -81,6 +122,7 @@ const page = () => {
             type="date"
             name="birthday"
             className="w-full focus:outline-none appearance-none placeholder:italic placeholder:text-slate-600 bg-transparent font-medium border-b-2 border-slate-700 px-4 py-2 my-4"
+            disabled={editProfile}
             {...register("birthday", {
               required: {
                 value: true,
@@ -89,8 +131,42 @@ const page = () => {
             })}
           />
           <p className="text-red-700">{formErrors.birthday?.message}</p>
+          {!editProfile &&
+            <div>
+              <Button text={"Guardar Cambios"} className={"bg-green-600 p-2 text-white"} />
+              <Button
+                text={"X"}
+                className="bg-red-600 h-10 p-2"
+                onClick={() => {
+                  closeModal();
+                }}
+              />
+            </div>
+          }
         </form>
       </div>
+      <div>
+        {editProfile &&
+          <Button
+            text={"Editar Perfil"}
+            className={"bg-slate-600 p-1 m-1"}
+            onClick={() => {
+              setEditProfile(false);
+            }}
+          />
+        }
+        {!editPasswordModal &&
+          <Button
+            text={"Editar Contraseña"}
+            className={"bg-slate-600 p-1 m-1"}
+            onClick={() => {
+              setEditPasswordModal(true);
+            }}
+          />}
+      </div>
+      {editPasswordModal &&
+        <ModalPassword closeModal={closeModal} id={user.data.id} />
+      }
     </div>
   );
 };

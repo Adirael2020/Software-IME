@@ -58,10 +58,13 @@ export const editUser = async (req, res) => {
     birthday,
     isTeacher,
     headquearters: headqueartersFromUser,
+    imageProfile
   } = req.body;
   const _id = req.params.id;
+  console.log(req.body);
+  console.log(imageProfile);
   try {
-    const userUpdate = await user.findOneAndUpdate(
+    await user.findOneAndUpdate(
       { _id },
       { username, fullname, email, hierarchy, specialty, birthday, isTeacher },
       { new: true }
@@ -78,6 +81,22 @@ export const editUser = async (req, res) => {
 
     res.json({
       message: "Usuario Guardado Correctamente",
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+export const editProfile = async (req,res) => {
+  const {fullname, email, birthday} = req.body;
+  const _id = req.params.id;
+  try {
+    await user.findOneAndUpdate(
+      { _id },
+      { fullname, email, birthday},
+      { new: true }
+    );
+    res.json({
+      message: "Usuario Editado Correctamente",
     });
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -147,6 +166,25 @@ export const resetPassword = async (req, res) => {
     userFound.password = passwordHash;
     await userFound.save();
     res.status(200).json({ message: "Password Reset" });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+//Edit pasword profile
+export const editPasswordProfile = async (req,res) => {
+  try {
+    const {currentPassword, newPassword, retryNewPassword} = req.body;
+    const _id = req.params.id;
+  
+    const userFound = await user.findOne({_id});
+    const isMatch = await bcrypt.compare(currentPassword, userFound.password);
+    if(!isMatch) return res.status(400).json({message:"invalid credentials"});
+    if(currentPassword === newPassword) return res.status(400).json({message: "identic password"})
+    if(newPassword !== retryNewPassword) return res.status(400).json({message:"invalid new password"});
+    const passwordHash = await bcrypt.hash(newPassword, 10); 
+    userFound.password = passwordHash;
+    await userFound.save();
+    res.json({message:"Contraseña Actualizada"});
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }

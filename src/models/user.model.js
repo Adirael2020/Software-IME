@@ -41,5 +41,8 @@ const userSchema = new mongoose.Schema({
     birthday: {
         type: Date
     },
+    photo_user: {
+        type: String,
+    },
 });
 export const user = mongoose.model('User',userSchema);
