@@ -1,7 +1,6 @@
 import Image from "next/image";
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 import styles from "../../styles/login.module.css";
-
 
 const Carousel = ({ images }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -22,28 +21,23 @@ const Carousel = ({ images }) => {
   return (
     <div className={styles.carouselcontainer}>
       <div className={styles.carousel}>
-      {images.map((imageUrl, index) => (
-        <div
-          key={index}
-          className={`${styles.slide} ${
-            index === currentImageIndex ? styles.active : styles.inactive
-          }`}
-        >
-          <Image
-            src={imageUrl}
-            alt={`Slide ${index}`}
-            width={450} 
-            height={450} 
-          />
-        </div>
-      ))}
-    </div>
+        {images.map((imageUrl, index) => (
+          <div
+            key={index}
+            className={`${styles.slide} ${
+              index === currentImageIndex ? styles.active : styles.inactive
+            }`}
+          >
+            <Image
+              src={imageUrl}
+              alt={`Slide ${index}`}
+              width={450}
+              height={450}
+            />
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
 export default Carousel;
-
-
-
-
-
