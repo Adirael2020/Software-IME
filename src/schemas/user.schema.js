@@ -25,7 +25,9 @@ export const userSchema = z.object({
         required_error: "Please select a date and time",
         invalid_type_error: "That's not a date!",
       }),
-    headqueartersFromUser: z.string().array(),
+    headqueartersFromUser: z.string().array({
+        required_error: 'Select Headquearterss'
+    }),
     isTeacher: z.boolean({
         required_error: 'not a boolean'
     })
@@ -40,10 +42,6 @@ export const editUserSchema = z.object({
     }).email({
         required_error: 'Ivalid email'
     }),
-    birthday: z.date({
-        required_error: "Please select a date and time",
-        invalid_type_error: "That's not a date!",
-      }),
 });
 
 export const editPasswordUserSchema = z.object({

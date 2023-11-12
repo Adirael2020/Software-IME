@@ -16,7 +16,7 @@ router.post("/createUser",authRequired,validateSchema(userSchema),createUser);
 //get user
 router.post("/getUser/:id",authRequired,getUser);
 //edit user
-router.put("/editUser/:id",authRequired,validateSchema(userSchema),editUser);
+router.put("/editUser/:id",authRequired,validateSchema(editUserSchema),editUser);
 router.put("/editProfileUser/:id",authRequired,validateSchema(editUserSchema),editProfile);
 //active user
 router.put("/activateUser/:id",authRequired,activateUser);

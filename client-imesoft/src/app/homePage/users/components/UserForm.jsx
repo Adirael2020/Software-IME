@@ -310,6 +310,7 @@ const UserForm = () => {
       };
       const response = await editUser(editedUser);
       console.log(response);
+      console.log(formData);
       //navigate.push("/homePage/users");
     }
   };
@@ -349,17 +350,28 @@ const UserForm = () => {
   };
   //validation image
   const validateImage = (value) => {
-    if (!value) {
-      return "Campo requerido";
+    if (!value || value.length === 0) {
+      return true;
     }
-
     if (!["image/jpeg", "image/png"].includes(value[0].type)) {
       return "Solo se permiten archivos JPG o PNG";
     }
-
     return true;
   };
-
+  const [defaultImagePath, setDefaultImagePath] = useState("/profile.png");
+  //change image select
+  const handleFileChange = (e) => {
+    const selectedImage = e.target.files[0];
+    if (selectedImage) {
+      const imageURL = URL.createObjectURL(selectedImage);
+      setDefaultImagePath(imageURL);
+    }
+  };
+  //reset image select
+  const clearSelection = () => {
+    setDefaultImagePath("/profile.png");
+    reset({ ...getValues(), imageProfile: '' });
+  };
 
   return (
     <div>
@@ -451,11 +463,20 @@ const UserForm = () => {
                   {...register("imageProfile", { validate: validateImage })}
                   onChange={(e) => {
                     field.onChange(e);
+                    handleFileChange(e);
                   }}
                 />
               </>
             )}
           />
+          <Image
+            src={defaultImagePath}
+            alt="Imagen predeterminada"
+            width={100}
+            height={100}
+          />
+          <p className="text-red-700">{formErrors.imageProfile?.message}</p>
+          <Button text={"Limpiar Imagen"} className={"bg-green-500 text-white p-2"} onClick={clearSelection}/>
         </div>
         <div className="flex">
           <div>
