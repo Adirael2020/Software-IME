@@ -47,6 +47,7 @@ const UserForm = () => {
     control,
     reset,
     watch,
+    getValues
   } = useForm();
 
   //useState
@@ -294,7 +295,8 @@ const UserForm = () => {
 
       //Image Profile
       const formData = new FormData();
-      formData.append("file", data.imageProfile);
+      formData.append("imageProfile", data.imageProfile[0]);
+      formData.append("username", data.username);
 
       const editedUser = {
         _id: params.id,
@@ -311,6 +313,7 @@ const UserForm = () => {
       const response = await editUser(editedUser);
       console.log(response);
       console.log(formData);
+      console.log(data.imageProfile[0]);
       //navigate.push("/homePage/users");
     }
   };
@@ -375,7 +378,7 @@ const UserForm = () => {
 
   return (
     <div>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
         <div>
           {/* Nombre de Usuario */}
           <input
