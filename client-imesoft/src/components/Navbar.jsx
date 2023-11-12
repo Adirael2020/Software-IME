@@ -16,7 +16,7 @@ export default function Navbar() {
 
   return (
     <div>
-      <nav className="bg-slate-900 flex items-center py-1 px-2 justify-between text-white">
+      <nav className="bg-slate-900 flex items-center py-1 px-2  text-white">
         <Button text={"Back"} onClick={() => navigate.back()} />
         <a
           href="/homePage"
@@ -28,7 +28,7 @@ export default function Navbar() {
           <Logo text={"Home"} />
         </a> 
         
-        <div>
+        <div className="items-right justify mx-2">
           {!open && (
             <Button
               text={"Perfil"}
