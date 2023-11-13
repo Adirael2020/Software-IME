@@ -61,8 +61,8 @@ export const editUser = async (req, res) => {
     imageProfile
   } = req.body;
   const _id = req.params.id;
-  console.log(req.body);
-  console.log(imageProfile);
+  console.log();
+
   try {
     await user.findOneAndUpdate(
       { _id },

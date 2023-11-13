@@ -296,7 +296,6 @@ const UserForm = () => {
       //Image Profile
       const formData = new FormData();
       formData.append("imageProfile", data.imageProfile[0]);
-      formData.append("username", data.username);
 
       const editedUser = {
         _id: params.id,
